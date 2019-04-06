@@ -6,7 +6,7 @@ import org.springframework.stereotype.Repository;
 import com.orderout.orderout.domain.User;
 
 @Repository
-public interface UserDao extends CrudRepository<User, Integer> {
+public interface UserDao extends CrudRepository<User, String> {
 
-	  User findByUsername(String username);
+	  User findByEmail(String username);
 }

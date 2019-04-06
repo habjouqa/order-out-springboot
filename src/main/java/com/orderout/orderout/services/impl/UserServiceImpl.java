@@ -27,14 +27,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
 
-	public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-		User user = userDao.findByUsername(username);
-		if(user == null){
-			throw new UsernameNotFoundException("Invalid username or password.");
-		}
-		return new org.springframework.security.core.userdetails.User(user.getUsername(), user.getPassword(), getAuthority());
-	}
-
 	private List<SimpleGrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 	}
@@ -46,24 +38,24 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public void delete(int id) {
+	public void delete(String id) {
 		userDao.deleteById(id);
 	}
 
 	@Override
 	public User findOne(String username) {
-		return userDao.findByUsername(username);
+		return userDao.findByEmail(username);
 	}
 
 	@Override
-	public User findById(int id) {
+	public User findById(String id) {
 		Optional<User> optionalUser = userDao.findById(id);
 		return optionalUser.isPresent() ? optionalUser.get() : null;
 	}
 
     @Override
     public UserDto update(UserDto userDto) {
-        User user = findById(userDto.getId());
+        User user = findById(userDto.getEmail());
         if(user != null) {
             BeanUtils.copyProperties(userDto, user, "password");
             userDao.save(user);
@@ -74,7 +66,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
     @Override
     public User save(UserDto user) {
 	    User newUser = new User();
-	    newUser.setUsername(user.getUsername());
 	    newUser.setFirstName(user.getFirstName());
 	    newUser.setLastName(user.getLastName());
 	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
@@ -84,4 +75,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setPhoneNumber(user.getPhoneNumber());
         return userDao.save(newUser);
     }
+
+	@Override
+	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+		User user = userDao.findByEmail(email.toLowerCase());
+		if(user == null){
+			throw new UsernameNotFoundException("Invalid username or password.");
+		}
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
+
+	}
+
 }

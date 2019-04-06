@@ -6,15 +6,13 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-    @Id
+    
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
     @Column
     private String firstName;
     @Column
     private String lastName;
-    @Column
-    private String username;
     @Column
     @JsonIgnore
     private String password;
@@ -24,6 +22,7 @@ public class User {
     private int age;
     @Column
 	private String phoneNumber;
+    @Id
     @Column
 	private String email;
 
@@ -49,14 +48,6 @@ public class User {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
     }
 
     public String getPassword() {

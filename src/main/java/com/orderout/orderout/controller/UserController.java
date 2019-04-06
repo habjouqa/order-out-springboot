@@ -37,19 +37,19 @@ public class UserController {
 	        return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.",userService.findAll());
 	    }
 
-	    @GetMapping("/users/{id}")
-	    public ApiResponse<User> getOne(@PathVariable int id){
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",userService.findById(id));
+	    @GetMapping("/users/{email}")
+	    public ApiResponse<User> getOne(@PathVariable String email){
+	        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",userService.findById(email));
 	    }
 
-	    @PutMapping("/users/{id}")
+	    @PutMapping("/users/{email}")
 	    public ApiResponse<UserDto> update(@RequestBody UserDto userDto) {
 	        return new ApiResponse<>(HttpStatus.OK.value(), "User updated successfully.",userService.update(userDto));
 	    }
 
-	    @DeleteMapping("/users/{id}")
-	    public ApiResponse<Void> delete(@PathVariable int id) {
-	        userService.delete(id);
+	    @DeleteMapping("/users/{email}")
+	    public ApiResponse<Void> delete(@PathVariable String email) {
+	        userService.delete(email);
 	        return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
 	    }
 
