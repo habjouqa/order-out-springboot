@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orderout.orderout.domain.ApiResponse;
@@ -51,6 +52,14 @@ public class UserController {
 	    public ApiResponse<Void> delete(@PathVariable String email) {
 	        userService.delete(email);
 	        return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
+	    }
+	    
+	    
+	    @GetMapping("/isExistsEmail")
+	    public ApiResponse<User> isExistsEmail(@RequestParam String email){
+	    	User user=userService.findById(email);
+	    	
+	        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",user!=null?true:false);
 	    }
 
 
