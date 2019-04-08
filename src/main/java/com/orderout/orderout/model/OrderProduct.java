@@ -1,6 +1,7 @@
 package com.orderout.orderout.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.orderout.orderout.domain.User;
 
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
@@ -20,10 +21,11 @@ public class OrderProduct {
         super();
     }
 
-    public OrderProduct(Order order, Product product, Integer quantity) {
+    public OrderProduct(Order order, Product product, Integer quantity, User user) {
         pk = new OrderProductPK();
         pk.setOrder(order);
         pk.setProduct(product);
+        pk.setUser(user);
         this.quantity = quantity;
     }
 

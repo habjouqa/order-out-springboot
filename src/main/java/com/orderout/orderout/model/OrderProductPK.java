@@ -2,6 +2,7 @@ package com.orderout.orderout.model;
 
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
+import com.orderout.orderout.domain.User;
 
 import javax.persistence.Embeddable;
 import javax.persistence.FetchType;
@@ -23,7 +24,19 @@ public class OrderProductPK implements Serializable {
     @JoinColumn(name = "product_id")
     private Product product;
 
-    public Order getOrder() {
+    @ManyToOne(optional = false, fetch = FetchType.LAZY)
+    @JoinColumn(name = "user_id")
+    private User user;
+
+    public User getUser() {
+		return user;
+	}
+
+	public void setUser(User user) {
+		this.user = user;
+	}
+
+	public Order getOrder() {
         return order;
     }
 
