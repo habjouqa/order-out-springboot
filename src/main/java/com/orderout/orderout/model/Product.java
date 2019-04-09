@@ -16,6 +16,7 @@ public class Product {
 
     private Double price;
 
+    @Column(name = "picture_url")
     private String pictureUrl;
 
     public Product(Long id, @NotNull(message = "Product name is required.") String name, Double price, String pictureUrl) {

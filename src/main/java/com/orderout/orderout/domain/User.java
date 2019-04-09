@@ -9,9 +9,9 @@ public class User {
     
     @GeneratedValue(strategy= GenerationType.IDENTITY)
     private int id;
-    @Column
+    @Column(name = "first_name")
     private String firstName;
-    @Column
+    @Column(name = "last_name")
     private String lastName;
     @Column
     @JsonIgnore
@@ -20,7 +20,7 @@ public class User {
     private long salary;
     @Column
     private int age;
-    @Column
+    @Column(name = "phone_number")
 	private String phoneNumber;
     @Id
     @Column
