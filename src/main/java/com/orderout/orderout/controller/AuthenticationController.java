@@ -22,7 +22,9 @@ import com.orderout.orderout.services.UserService;
 @RequestMapping("/token")
 public class AuthenticationController {
 
-	 @Autowired
+	private static final String ACTIVE = "1";
+
+	@Autowired
 	    private AuthenticationManager authenticationManager;
 
 	    @Autowired
@@ -36,7 +38,7 @@ public class AuthenticationController {
 
 	        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
 	        
-	        final User user = userService.findOne(loginUser.getEmail());
+	        final User user = userService.findByEmail(loginUser.getEmail(), ACTIVE);
 	        final String token = jwtTokenUtil.generateToken(user);
 	        return new ApiResponse<>(200, "success",new AuthToken(token, user.getEmail()));
 	    }
