@@ -85,6 +85,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		
 		}catch (Exception e) {
 			System.err.println(" ########### SEND EMAIL FAILD ###########3");
+			e.printStackTrace();
 		}
 		
 		return userDao.save(newUser);
