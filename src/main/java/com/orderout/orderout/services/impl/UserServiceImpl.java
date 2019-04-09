@@ -17,13 +17,17 @@ import org.springframework.stereotype.Service;
 import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
+import com.orderout.orderout.services.MailService;
 import com.orderout.orderout.services.UserService;
+import com.orderout.orderout.services.constant.Template;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
-
+	@Autowired
+	private MailService mail;
+	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
 
@@ -65,6 +69,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public User save(UserDto user) {
+    	
+ 
 	    User newUser = new User();
 	    newUser.setFirstName(user.getFirstName());
 	    newUser.setLastName(user.getLastName());
@@ -73,7 +79,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setSalary(user.getSalary());
 		newUser.setEmail(user.getEmail());
 		newUser.setPhoneNumber(user.getPhoneNumber());
-        return userDao.save(newUser);
+		try {
+			
+		mail.sendEmail(newUser,Template.SUBJECT_ACTIVATION_MESSAGE,Template.ACTIVATION_MESSAGE);
+		
+		}catch (Exception e) {
+			System.err.println(" ########### SEND EMAIL FAILD ###########3");
+		}
+		
+		return userDao.save(newUser);
     }
 
 	@Override
