@@ -55,15 +55,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //		return userDao.findInactiveByEmail(email);
 //	}
 
-	@Override
-	public User findById(String id) {
-		Optional<User> optionalUser = userDao.findById(id);
-		return optionalUser.isPresent() ? optionalUser.get() : null;
-	}
+//	@Override
+//	public User findById(String id) {
+//		Optional<User> optionalUser = userDao.findById(id);
+//		return optionalUser.isPresent() ? optionalUser.get() : null;
+//	}
 
     @Override
     public UserDto update(UserDto userDto) {
-        User user = findById(userDto.getEmail());
+        User user = findByEmail(userDto.getEmail(), ACTIVE);
         if(user != null) {
             BeanUtils.copyProperties(userDto, user, "password");
             userDao.save(user);
@@ -80,7 +80,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         	user.setActive(ACTIVE);
 //            BeanUtils.copyProperties(userDto, user, "password");
         	System.out.println(" >>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<<< " + user.getEmail());
-//            userDao.save(user);
+            userDao.save(user);
         }
         else {
 			throw new UsernameNotFoundException("User not found.");

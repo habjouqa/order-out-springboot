@@ -17,7 +17,7 @@ public interface UserService {
 
 //	User findInactiveByEmail(String email);
 
-	User findById(String email);
+//	User findById(String email);
 
 	UserDto update(UserDto userDto);
 
