@@ -26,7 +26,7 @@ public class User {
     @Column
 	private String email;
     @Column
-    private String active;
+    private String active = "0";
     
     public int getId() {
         return id;
