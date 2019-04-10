@@ -114,7 +114,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			
 			Email from = new Email("test@example.com");
 		    String subject = "Hello World from the SendGrid Java Library!";
-		    Email to = new Email("test@example.com");
+		    Email to = new Email("anas.hijazi@sts.com.jo");
 		    Content content = new Content("text/plain", "Hello, Email!");
 		    Mail mail = new Mail(from, subject, to, content);
 
