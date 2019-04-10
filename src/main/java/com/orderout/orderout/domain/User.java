@@ -25,7 +25,9 @@ public class User {
     @Id
     @Column
 	private String email;
-
+    @Column
+    private String active;
+    
     public int getId() {
         return id;
     }
@@ -88,6 +90,14 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
     
     

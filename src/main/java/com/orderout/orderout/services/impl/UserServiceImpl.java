@@ -23,6 +23,8 @@ import com.orderout.orderout.services.constant.Template;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
+	private static final String INACTIVE = "0";
+
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -47,9 +49,14 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public User findOne(String username) {
+	public User findByEmail(String username, String active) {
 		return userDao.findByEmail(username);
 	}
+
+//	@Override
+//	public User findInactiveByEmail(String email) {
+//		return userDao.findInactiveByEmail(email);
+//	}
 
 	@Override
 	public User findById(String id) {
@@ -65,6 +72,21 @@ public class UserServiceImpl implements UserDetailsService, UserService {
             userDao.save(user);
         }
         return userDto;
+    }
+
+    @Override
+    public void activate(String email) {
+        User user = findByEmail(email, INACTIVE);
+        if(user != null) {
+        	user.setActive("1");
+//            BeanUtils.copyProperties(userDto, user, "password");
+        	System.out.println(" >>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<<< " + user.getEmail());
+            userDao.save(user);
+        }
+        else {
+			throw new UsernameNotFoundException("User not found.");
+        }
+//        return userDto;
     }
 
     @Override

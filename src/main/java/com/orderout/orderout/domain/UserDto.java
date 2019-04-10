@@ -11,6 +11,7 @@ public class UserDto {
 	private int salary;
 	private String phoneNumber;
 	private String email;
+	private String active;
 
 
 	public int getId() {
@@ -83,6 +84,14 @@ public class UserDto {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getActive() {
+		return active;
+	}
+
+	public void setActive(String active) {
+		this.active = active;
 	}
 	
 	

@@ -23,46 +23,82 @@ import com.orderout.orderout.services.UserService;
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 public class UserController {
-	 @Autowired
-	    private UserService userService;
+	@Autowired
+	private UserService userService;
 
-	 	@RequestMapping("/signup")
-	    @PostMapping
-	    public ApiResponse<User> saveUser(@RequestBody UserDto user){
-	 		
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.",userService.save(user));
-	    }
+	@RequestMapping("/signup")
+	@PostMapping
+	public ApiResponse<User> saveUser(@RequestBody UserDto user) {
+		try {
+			return new ApiResponse<>(HttpStatus.OK.value(), "User saved successfully.", userService.save(user));
 
-	 	@RequestMapping("/users")
-	    @GetMapping
-	    public ApiResponse<List<User>> listUser(){
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.",userService.findAll());
-	    }
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
 
-	    @GetMapping("/users/{email}")
-	    public ApiResponse<User> getOne(@PathVariable String email){
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",userService.findById(email));
-	    }
+	@RequestMapping("/users")
+	@GetMapping
+	public ApiResponse<List<User>> listUser() {
+		try {
+			return new ApiResponse<>(HttpStatus.OK.value(), "User list fetched successfully.", userService.findAll());
 
-	    @PutMapping("/users/{email}")
-	    public ApiResponse<UserDto> update(@RequestBody UserDto userDto) {
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User updated successfully.",userService.update(userDto));
-	    }
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
 
-	    @DeleteMapping("/users/{email}")
-	    public ApiResponse<Void> delete(@PathVariable String email) {
-	        userService.delete(email);
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
-	    }
-	    
-	    
-	    @GetMapping("/isExistsEmail")
-	    public ApiResponse<User> isExistsEmail(@RequestParam String email){
-	    	User user=userService.findById(email);
-	    	
-	        return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",user!=null?true:false);
-	    }
+	@GetMapping("/users/{email}")
+	public ApiResponse<User> getOne(@PathVariable String email) {
+		try {
+			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", userService.findById(email));
 
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
 
+	@PutMapping("/users/{email}")
+	public ApiResponse<UserDto> update(@RequestBody UserDto userDto) {
+		try {
+			return new ApiResponse<>(HttpStatus.OK.value(), "User updated successfully.", userService.update(userDto));
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
+
+	@GetMapping("/activate/{email}")
+	public ApiResponse<Void> activate(@PathVariable String email) {
+		try {
+			userService.activate(email);
+			return new ApiResponse<>(HttpStatus.OK.value(), "User activated successfully.", null);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
+
+	@DeleteMapping("/users/{email}")
+	public ApiResponse<Void> delete(@PathVariable String email) {
+		try {
+			userService.delete(email);
+			return new ApiResponse<>(HttpStatus.OK.value(), "User deleted successfully.", null);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
+
+	@GetMapping("/isExistsEmail")
+	public ApiResponse<User> isExistsEmail(@RequestParam String email) {
+		try {
+			User user = userService.findById(email);
+			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", user != null ? true : false);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
 
 }
