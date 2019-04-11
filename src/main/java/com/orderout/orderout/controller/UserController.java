@@ -16,9 +16,10 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orderout.orderout.domain.ApiResponse;
+import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
-import com.orderout.orderout.services.UserService;
+import com.orderout.orderout.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
@@ -51,7 +52,7 @@ public class UserController {
 	@GetMapping("/users/{email}")
 	public ApiResponse<User> getOne(@PathVariable String email) {
 		try {
-			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", userService.findByEmail(email, "1"));
+			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", userService.findByEmail(email, Constants.ACTIVE));
 
 		} catch (Exception e) {
 			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
@@ -94,7 +95,7 @@ public class UserController {
 	@GetMapping("/isExistsEmail")
 	public ApiResponse<User> isExistsEmail(@RequestParam String email) {
 		try {
-			User user = userService.findByEmail(email, "1");
+			User user = userService.findByEmail(email, Constants.ACTIVE);
 			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", user != null ? true : false);
 
 		} catch (Exception e) {

@@ -1,5 +1,5 @@
 /*
- * package com.orderout.orderout.services;
+ * package com.orderout.orderout.service;
  * 
  * import org.springframework.web.bind.annotation.CrossOrigin; import
  * org.springframework.web.bind.annotation.GetMapping; import

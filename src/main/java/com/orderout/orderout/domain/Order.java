@@ -1,4 +1,4 @@
-package com.orderout.orderout.model;
+package com.orderout.orderout.domain;
 
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;

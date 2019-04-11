@@ -1,4 +1,4 @@
-package com.orderout.orderout.model;
+package com.orderout.orderout.domain;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;

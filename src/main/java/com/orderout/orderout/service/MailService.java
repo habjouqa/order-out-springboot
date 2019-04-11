@@ -1,4 +1,4 @@
-package com.orderout.orderout.services;
+package com.orderout.orderout.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.mail.MailException;

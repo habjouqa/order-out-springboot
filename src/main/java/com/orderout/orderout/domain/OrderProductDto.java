@@ -1,7 +1,7 @@
-package com.orderout.orderout.dto;
+package com.orderout.orderout.domain;
 
 import com.orderout.orderout.domain.User;
-import com.orderout.orderout.model.Product;
+import com.orderout.orderout.domain.Product;
 
 public class OrderProductDto {
 

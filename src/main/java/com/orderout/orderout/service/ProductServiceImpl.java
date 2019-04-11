@@ -1,8 +1,8 @@
 package com.orderout.orderout.service;
 
 import com.orderout.orderout.exception.ResourceNotFoundException;
-import com.orderout.orderout.model.Product;
-import com.orderout.orderout.repository.ProductRepository;
+import com.orderout.orderout.domain.Product;
+import com.orderout.orderout.domain.ProductRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

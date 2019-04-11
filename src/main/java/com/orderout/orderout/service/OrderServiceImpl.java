@@ -1,7 +1,7 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.model.Order;
-import com.orderout.orderout.repository.OrderRepository;
+import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.OrderRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 

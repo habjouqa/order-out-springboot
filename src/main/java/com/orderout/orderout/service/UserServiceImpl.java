@@ -1,9 +1,8 @@
-package com.orderout.orderout.services.impl;
+package com.orderout.orderout.service;
 
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,17 +14,15 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import com.orderout.orderout.dao.UserDao;
+import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
-import com.orderout.orderout.services.MailService;
-import com.orderout.orderout.services.UserService;
-import com.orderout.orderout.services.constant.Template;
+import com.orderout.orderout.service.MailService;
+import com.orderout.orderout.service.UserService;
+import com.orderout.orderout.constants.Template;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
-	private static final String INACTIVE = "0";
-	private static final String ACTIVE = "1";
-
 	@Autowired
 	private UserDao userDao;
 	@Autowired
@@ -50,7 +47,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public User findByEmail(String username, String active) {
+	public User findByEmail(String username, boolean active) {
 		return userDao.findByEmail(username, active);
 	}
 
@@ -67,7 +64,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public UserDto update(UserDto userDto) {
-        User user = findByEmail(userDto.getEmail(), ACTIVE);
+        User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
         if(user != null) {
             BeanUtils.copyProperties(userDto, user, "password");
             userDao.save(user);
@@ -77,11 +74,11 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
     @Override
     public void activate(String email) {
-        User user = findByEmail(email, INACTIVE);
-    	System.out.println(" >>>**************** <<< " + INACTIVE + "[" + email + "]");
+        User user = findByEmail(email, Constants.INACTIVE);
+    	System.out.println(" >>>**************** <<< " + Constants.INACTIVE + "[" + email + "]");
 
         if(user != null) {
-        	user.setActive(ACTIVE);
+        	user.setActive(Constants.ACTIVE);
 //            BeanUtils.copyProperties(userDto, user, "password");
         	System.out.println(" >>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<<< " + user.getEmail());
             userDao.save(user);
@@ -118,7 +115,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userDao.findByEmail(email.toLowerCase(), ACTIVE);
+		User user = userDao.findByEmail(email.toLowerCase(), Constants.ACTIVE);
 		if(user == null){
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}

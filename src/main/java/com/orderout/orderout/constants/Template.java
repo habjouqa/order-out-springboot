@@ -1,4 +1,4 @@
-package com.orderout.orderout.services.constant;
+package com.orderout.orderout.constants;
 
 public class Template {
 	
