@@ -11,7 +11,7 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Component;
 
-import com.orderout.orderout.domain.Constants;
+import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.User;
 
 import io.jsonwebtoken.Claims;

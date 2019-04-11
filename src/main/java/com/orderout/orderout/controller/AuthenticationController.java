@@ -13,16 +13,15 @@ import org.springframework.web.bind.annotation.RestController;
 import com.orderout.orderout.config.JwtTokenUtil;
 import com.orderout.orderout.domain.ApiResponse;
 import com.orderout.orderout.domain.AuthToken;
+import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.LoginUser;
 import com.orderout.orderout.domain.User;
-import com.orderout.orderout.services.UserService;
+import com.orderout.orderout.service.UserService;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
 @RestController
 @RequestMapping("/token")
 public class AuthenticationController {
-
-	private static final String ACTIVE = "1";
 
 	@Autowired
 	    private AuthenticationManager authenticationManager;
@@ -38,7 +37,7 @@ public class AuthenticationController {
 
 	        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
 	        
-	        final User user = userService.findByEmail(loginUser.getEmail(), ACTIVE);
+	        final User user = userService.findByEmail(loginUser.getEmail(), Constants.ACTIVE);
 	        final String token = jwtTokenUtil.generateToken(user);
 	        return new ApiResponse<>(200, "success",new AuthToken(token, user.getEmail()));
 	    }

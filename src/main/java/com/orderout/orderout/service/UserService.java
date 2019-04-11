@@ -1,4 +1,4 @@
-package com.orderout.orderout.services;
+package com.orderout.orderout.service;
 
 import java.util.List;
 
@@ -13,7 +13,7 @@ public interface UserService {
 
 	void delete(String id);
 
-	User findByEmail(String email, String active);
+	User findByEmail(String email, boolean active);
 
 //	User findInactiveByEmail(String email);
 

@@ -1,6 +1,6 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.model.Order;
+import com.orderout.orderout.domain.Order;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.Valid;

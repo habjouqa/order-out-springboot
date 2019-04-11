@@ -6,75 +6,76 @@ import javax.persistence.*;
 @Table(name = "users")
 public class User {
 
-    
-    @GeneratedValue(strategy= GenerationType.IDENTITY)
-    private int id;
-    @Column(name = "first_name")
-    private String firstName;
-    @Column(name = "last_name")
-    private String lastName;
-    @Column
-    @JsonIgnore
-    private String password;
-    @Column
-    private long salary;
-    @Column
-    private int age;
-    @Column(name = "phone_number")
+	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	private int id;
+	@Column(name = "first_name")
+	private String firstName;
+	@Column(name = "last_name")
+	private String lastName;
+	@Column
+	@JsonIgnore
+	private String password;
+	@Column
+	private long salary;
+	@Column
+	private int age;
+	@Column(name = "phone_number")
 	private String phoneNumber;
-    @Id
-    @Column
+	@Id
+	@Column
 	private String email;
-    @Column
-    private String active = "0";
-    
-    public int getId() {
-        return id;
-    }
+	@Column
+	private boolean active = false;
+	@Column
+	private boolean enabled;
 
-    public void setId(int id) {
-        this.id = id;
-    }
+	public int getId() {
+		return id;
+	}
 
-    public String getFirstName() {
-        return firstName;
-    }
+	public void setId(int id) {
+		this.id = id;
+	}
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+	public String getFirstName() {
+		return firstName;
+	}
 
-    public String getLastName() {
-        return lastName;
-    }
+	public void setFirstName(String firstName) {
+		this.firstName = firstName;
+	}
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+	public String getLastName() {
+		return lastName;
+	}
 
-    public String getPassword() {
-        return password;
-    }
+	public void setLastName(String lastName) {
+		this.lastName = lastName;
+	}
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+	public String getPassword() {
+		return password;
+	}
 
-    public long getSalary() {
-        return salary;
-    }
+	public void setPassword(String password) {
+		this.password = password;
+	}
 
-    public void setSalary(long salary) {
-        this.salary = salary;
-    }
+	public long getSalary() {
+		return salary;
+	}
 
-    public int getAge() {
-        return age;
-    }
+	public void setSalary(long salary) {
+		this.salary = salary;
+	}
 
-    public void setAge(int age) {
-        this.age = age;
-    }
+	public int getAge() {
+		return age;
+	}
+
+	public void setAge(int age) {
+		this.age = age;
+	}
 
 	public String getPhoneNumber() {
 		return phoneNumber;
@@ -92,13 +93,20 @@ public class User {
 		this.email = email;
 	}
 
-	public String getActive() {
+	public boolean isEnabled() {
+		return enabled;
+	}
+
+	public void setEnabled(boolean enabled) {
+		this.enabled = enabled;
+	}
+
+	public boolean isActive() {
 		return active;
 	}
 
-	public void setActive(String active) {
+	public void setActive(boolean active) {
 		this.active = active;
 	}
-    
-    
+
 }

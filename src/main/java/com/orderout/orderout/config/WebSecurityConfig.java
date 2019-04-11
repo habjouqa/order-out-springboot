@@ -19,45 +19,40 @@ import javax.annotation.Resource;
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
-	  @Resource(name = "userService")
-	    private UserDetailsService userDetailsService;
+	@Resource(name = "userService")
+	private UserDetailsService userDetailsService;
 
-	    @Autowired
-	    private JwtAuthenticationEntryPoint unauthorizedHandler;
+	@Autowired
+	private JwtAuthenticationEntryPoint unauthorizedHandler;
 
-	    @Override
-	    @Bean
-	    public AuthenticationManager authenticationManagerBean() throws Exception {
-	        return super.authenticationManagerBean();
-	    }
+	@Override
+	@Bean
+	public AuthenticationManager authenticationManagerBean() throws Exception {
+		return super.authenticationManagerBean();
+	}
 
-	    @Autowired
-	    public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
-	        auth.userDetailsService(userDetailsService)
-	                .passwordEncoder(encoder());
-	    }
+	@Autowired
+	public void globalUserDetails(AuthenticationManagerBuilder auth) throws Exception {
+		auth.userDetailsService(userDetailsService).passwordEncoder(encoder());
+	}
 
-	    @Bean
-	    public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
-	        return new JwtAuthenticationFilter();
-	    }
+	@Bean
+	public JwtAuthenticationFilter authenticationTokenFilterBean() throws Exception {
+		return new JwtAuthenticationFilter();
+	}
 
-	    @Override
-	    protected void configure(HttpSecurity http) throws Exception {
-	        http.cors().and().csrf().disable().
-	                authorizeRequests()
-	                .antMatchers("/token/*", "/signup", "/api/products", "/isExistsEmail", "/activate/*").permitAll()
-	                .anyRequest().authenticated()
-	                .and()
-	                .exceptionHandling().authenticationEntryPoint(unauthorizedHandler).and()
-	                .sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
-	        http
-	                .addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
-	    }
+	@Override
+	protected void configure(HttpSecurity http) throws Exception {
+		http.cors().and().csrf().disable().authorizeRequests()
+				.antMatchers("/token/*", "/signup", "/api/products", "/isExistsEmail", "/activate/*").permitAll()
+				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
+				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
+		http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);
+	}
 
-	    @Bean
-	    public BCryptPasswordEncoder encoder(){
-	        return new BCryptPasswordEncoder();
-	    }
+	@Bean
+	public BCryptPasswordEncoder encoder() {
+		return new BCryptPasswordEncoder();
+	}
 
 }

@@ -1,4 +1,4 @@
-package com.orderout.orderout.model;
+package com.orderout.orderout.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.orderout.orderout.domain.User;

@@ -1,10 +1,10 @@
 package com.orderout.orderout.controller;
 
-import com.orderout.orderout.dto.OrderProductDto;
+import com.orderout.orderout.domain.OrderProductDto;
 import com.orderout.orderout.exception.ResourceNotFoundException;
-import com.orderout.orderout.model.Order;
-import com.orderout.orderout.model.OrderProduct;
-import com.orderout.orderout.model.OrderStatus;
+import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.OrderProduct;
+import com.orderout.orderout.domain.OrderStatus;
 import com.orderout.orderout.service.OrderProductService;
 import com.orderout.orderout.service.OrderService;
 import com.orderout.orderout.service.ProductService;

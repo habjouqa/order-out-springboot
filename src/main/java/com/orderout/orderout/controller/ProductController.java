@@ -1,6 +1,6 @@
 package com.orderout.orderout.controller;
 
-import com.orderout.orderout.model.Product;
+import com.orderout.orderout.domain.Product;
 import com.orderout.orderout.service.ProductService;
 
 import org.springframework.web.bind.annotation.CrossOrigin;

@@ -1,9 +1,9 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.model.OrderProduct;
-import com.orderout.orderout.repository.OrderProductRepository;
-import com.orderout.orderout.services.MailService;
-import com.orderout.orderout.services.constant.Template;
+import com.orderout.orderout.domain.OrderProduct;
+import com.orderout.orderout.domain.OrderProductRepository;
+import com.orderout.orderout.service.MailService;
+import com.orderout.orderout.constants.Template;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;

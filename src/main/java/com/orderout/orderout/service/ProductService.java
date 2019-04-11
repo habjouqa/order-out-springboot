@@ -1,6 +1,6 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.model.Product;
+import com.orderout.orderout.domain.Product;
 import org.springframework.validation.annotation.Validated;
 
 import javax.validation.constraints.Min;
