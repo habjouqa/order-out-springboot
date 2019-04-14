@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 
 import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.constants.Constants;
+import com.orderout.orderout.domain.ConfirmationToken;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
 import com.orderout.orderout.service.MailService;
@@ -31,6 +32,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
+	
+	@Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
 	private List<SimpleGrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
@@ -63,15 +67,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //		return optionalUser.isPresent() ? optionalUser.get() : null;
 //	}
 
-	@Override
-	public UserDto update(UserDto userDto) {
-		User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
-		if (user != null) {
-			BeanUtils.copyProperties(userDto, user, "password");
-			userDao.save(user);
-		}
-		return userDto;
-	}
+    @Override
+    public User update(User userDto) {
+        User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
+        if(user != null) {
+            BeanUtils.copyProperties(userDto, user, "password");
+            userDao.save(user);
+        }
+        return userDto;
+    }
 
 	@Override
 	public void activate(String email) {
