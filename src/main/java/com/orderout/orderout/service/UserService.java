@@ -19,7 +19,9 @@ public interface UserService {
 
 //	User findById(String email);
 
-	UserDto update(UserDto userDto);
+	User update(User userDto);
 
 	void activate(String email);
+
+	void sendVerification(String email);
 }

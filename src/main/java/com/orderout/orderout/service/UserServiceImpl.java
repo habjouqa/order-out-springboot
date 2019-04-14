@@ -1,6 +1,5 @@
 package com.orderout.orderout.service;
 
-import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
@@ -16,23 +15,12 @@ import org.springframework.stereotype.Service;
 
 import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.constants.Constants;
+import com.orderout.orderout.domain.ConfirmationToken;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
-<<<<<<< HEAD:src/main/java/com/orderout/orderout/services/impl/UserServiceImpl.java
-import com.orderout.orderout.services.MailService;
-import com.orderout.orderout.services.UserService;
-import com.sendgrid.Content;
-import com.sendgrid.Email;
-import com.sendgrid.Mail;
-import com.sendgrid.Method;
-import com.sendgrid.Request;
-import com.sendgrid.Response;
-import com.sendgrid.SendGrid;
-=======
 import com.orderout.orderout.service.MailService;
 import com.orderout.orderout.service.UserService;
 import com.orderout.orderout.constants.Template;
->>>>>>> cbb8ee789dafc4aa72139fe9f88532c4c33ea658:src/main/java/com/orderout/orderout/service/UserServiceImpl.java
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
@@ -43,6 +31,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
+	
+	@Autowired
+    private ConfirmationTokenRepository confirmationTokenRepository;
 
 	private List<SimpleGrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
@@ -76,7 +67,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //	}
 
     @Override
-    public UserDto update(UserDto userDto) {
+    public User update(User userDto) {
         User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
         if(user != null) {
             BeanUtils.copyProperties(userDto, user, "password");
@@ -116,25 +107,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setPhoneNumber(user.getPhoneNumber());
 		try {
 			
-			Email from = new Email("test@example.com");
-		    String subject = "Hello World from the SendGrid Java Library!";
-		    Email to = new Email("anashijazi1990@gmail.com");
-		    Content content = new Content("text/plain", "Hello, Email!");
-		    Mail mail = new Mail(from, subject, to, content);
-
-		    SendGrid sg = new SendGrid(System.getenv("SENDGRID_API_KEY"));
-		    Request request = new Request();
-		    try {
-		      request.setMethod(Method.POST);
-		      request.setEndpoint("mail/send");
-		      request.setBody(mail.build());
-		      Response response = sg.api(request);
-		      System.out.println(response.getStatusCode());
-		      System.out.println(response.getBody());
-		      System.out.println(response.getHeaders());
-		    } catch (IOException ex) {
-		      throw ex;
-		    }
+		mail.sendEmail(newUser,Template.SUBJECT_ACTIVATION_MESSAGE,Template.ACTIVATION_MESSAGE);
 		
 		}catch (Exception e) {
 			System.err.println(" ########### SEND EMAIL FAILD ###########3");
@@ -151,6 +124,25 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
 		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
+
+	}
+	
+	
+	public void sendVerification(String email) {
+		User user=new User();
+		user.setEmail(email);
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+		confirmationTokenRepository.save(confirmationToken);
+		try {
+			
+			mail.sendEmail(user,Template.RESET_PASSWORD,Template.RESET_PASSWORD_MASSAGE+"please click here : "
+		            +"https://order-out.herokuapp.com/forget-password?token="+confirmationToken.getConfirmationToken());
+			
+			}catch (Exception e) {
+				System.err.println(" ########### SEND EMAIL FAILD ###########3");
+				e.printStackTrace();
+			}
+		System.out.println(">> >> >> >> Send Verfication ");
 
 	}
 
