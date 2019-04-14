@@ -120,8 +120,26 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
-				getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
+
+	}
+	
+	
+	public void sendVerification(String email) {
+		User user=new User();
+		user.setEmail(email);
+		ConfirmationToken confirmationToken = new ConfirmationToken(user);
+		confirmationTokenRepository.save(confirmationToken);
+		try {
+			
+			mail.sendEmail(user,Template.RESET_PASSWORD,Template.RESET_PASSWORD_MASSAGE+"please click here : "
+		            +"https://order-out.herokuapp.com/forget-password?token="+confirmationToken.getConfirmationToken());
+			
+			}catch (Exception e) {
+				System.err.println(" ########### SEND EMAIL FAILD ###########3");
+				e.printStackTrace();
+			}
+		System.out.println(">> >> >> >> Send Verfication ");
 
 	}
 
