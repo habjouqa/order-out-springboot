@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -91,7 +92,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			throw new UsernameNotFoundException("User not found.");
 		}
 	}
-		@Value("${domain.url}")
+	
+	@Value("${domain.url}")
 	private String domainUrl;
 
     @Override
@@ -102,8 +104,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	    newUser.setFirstName(user.getFirstName());
 	    newUser.setLastName(user.getLastName());
 	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		newUser.setAge(user.getAge());
-		newUser.setSalary(user.getSalary());
 		newUser.setEmail(user.getEmail());
 		newUser.setPhoneNumber(user.getPhoneNumber());
 		try {
