@@ -80,22 +80,19 @@ public class UserServiceImpl implements UserDetailsService, UserService {
         return userDto;
     }
 
-    @Override
-    public void activate(String email) {
-        User user = findByEmail(email, Constants.INACTIVE);
-    	System.out.println(" >>>**************** <<< " + Constants.INACTIVE + "[" + email + "]");
-
-        if(user != null) {
-        	user.setActive(Constants.ACTIVE);
-//            BeanUtils.copyProperties(userDto, user, "password");
-        	System.out.println(" >>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<<< " + user.getEmail());
-            userDao.save(user);
-        }
-        else {
+@Override
+	public void activate(String email) {
+		User user = findByEmail(email, Constants.INACTIVE); // find inactive email
+		if (user != null) {
+			user.setActive(Constants.ACTIVE);
+			userDao.save(user);
+			
+		} else {
 			throw new UsernameNotFoundException("User not found.");
-        }
-//        return userDto;
-    }
+		}
+	}
+		@Value("${domain.url}")
+	private String domainUrl;
 
     @Override
     public User save(UserDto user) {
