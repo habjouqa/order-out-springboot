@@ -15,10 +15,6 @@ public class User {
 	@Column
 	@JsonIgnore
 	private String password;
-	@Column
-	private long salary;
-	@Column
-	private int age;
 	@Column(name = "phone_number")
 	private String phoneNumber;
 	@Id
@@ -26,8 +22,6 @@ public class User {
 	private String email;
 	@Column
 	private boolean active = false;
-	@Column
-	private boolean enabled;
 
 	public int getId() {
 		return id;
@@ -61,22 +55,6 @@ public class User {
 		this.password = password;
 	}
 
-	public long getSalary() {
-		return salary;
-	}
-
-	public void setSalary(long salary) {
-		this.salary = salary;
-	}
-
-	public int getAge() {
-		return age;
-	}
-
-	public void setAge(int age) {
-		this.age = age;
-	}
-
 	public String getPhoneNumber() {
 		return phoneNumber;
 	}
@@ -91,14 +69,6 @@ public class User {
 
 	public void setEmail(String email) {
 		this.email = email;
-	}
-
-	public boolean isEnabled() {
-		return enabled;
-	}
-
-	public void setEnabled(boolean enabled) {
-		this.enabled = enabled;
 	}
 
 	public boolean isActive() {

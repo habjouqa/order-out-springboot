@@ -72,7 +72,6 @@ public class UserController {
 	@GetMapping("/activate/{email}")
 	public ApiResponse<Void> activate(@PathVariable String email) {
 		try {
-			System.out.println(" ------------------------ ");
 			userService.activate(email);
 			return new ApiResponse<>(HttpStatus.OK.value(), "User activated successfully.", null);
 

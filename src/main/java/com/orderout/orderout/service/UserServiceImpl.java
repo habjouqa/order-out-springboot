@@ -6,6 +6,7 @@ import java.util.List;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
@@ -62,64 +63,61 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //		return optionalUser.isPresent() ? optionalUser.get() : null;
 //	}
 
-    @Override
-    public UserDto update(UserDto userDto) {
-        User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
-        if(user != null) {
-            BeanUtils.copyProperties(userDto, user, "password");
-            userDao.save(user);
-        }
-        return userDto;
-    }
+	@Override
+	public UserDto update(UserDto userDto) {
+		User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
+		if (user != null) {
+			BeanUtils.copyProperties(userDto, user, "password");
+			userDao.save(user);
+		}
+		return userDto;
+	}
 
-    @Override
-    public void activate(String email) {
-        User user = findByEmail(email, Constants.INACTIVE);
-    	System.out.println(" >>>**************** <<< " + Constants.INACTIVE + "[" + email + "]");
-
-        if(user != null) {
-        	user.setActive(Constants.ACTIVE);
-//            BeanUtils.copyProperties(userDto, user, "password");
-        	System.out.println(" >>>>>>>>>>>>>>>>> <<<<<<<<<<<<<<<<<<<<<< " + user.getEmail());
-            userDao.save(user);
-        }
-        else {
+	@Override
+	public void activate(String email) {
+		User user = findByEmail(email, Constants.INACTIVE); // find inactive email
+		if (user != null) {
+			user.setActive(Constants.ACTIVE);
+			userDao.save(user);
+			
+		} else {
 			throw new UsernameNotFoundException("User not found.");
-        }
-//        return userDto;
-    }
+		}
+	}
 
-    @Override
-    public User save(UserDto user) {
-    	
- 
-	    User newUser = new User();
-	    newUser.setFirstName(user.getFirstName());
-	    newUser.setLastName(user.getLastName());
-	    newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
-		newUser.setAge(user.getAge());
-		newUser.setSalary(user.getSalary());
+	@Value("${domain.url}")
+	private String domainUrl;
+
+	@Override
+	public User save(UserDto user) {
+		User newUser = new User();
+		newUser.setFirstName(user.getFirstName());
+		newUser.setLastName(user.getLastName());
+		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		newUser.setEmail(user.getEmail());
 		newUser.setPhoneNumber(user.getPhoneNumber());
+
 		try {
-			
-		mail.sendEmail(newUser,Template.SUBJECT_ACTIVATION_MESSAGE,Template.ACTIVATION_MESSAGE);
-		
-		}catch (Exception e) {
-			System.err.println(" ########### SEND EMAIL FAILD ###########3");
+			System.out.println("-> URL <- " + Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "\">Activate</a>");
+			mail.sendEmail(newUser, Template.SUBJECT_ACTIVATION_MESSAGE, Template.ACTIVATION_MESSAGE 
+					+ "<a href=\"" + domainUrl + "/activate/" + user.getEmail() + "\">Activate</a>");
+
+		} catch (Exception e) {
+			System.err.println(" ########### SEND EMAIL FAILD ###########");
 			e.printStackTrace();
 		}
-		
+
 		return userDao.save(newUser);
-    }
+	}
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
 		User user = userDao.findByEmail(email.toLowerCase(), Constants.ACTIVE);
-		if(user == null){
+		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				getAuthority());
 
 	}
 
