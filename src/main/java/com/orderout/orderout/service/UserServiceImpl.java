@@ -16,6 +16,7 @@ import org.springframework.stereotype.Service;
 import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.ConfirmationToken;
+import com.orderout.orderout.domain.EmailDto;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
 import com.orderout.orderout.service.MailService;
@@ -35,6 +36,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
     private ConfirmationTokenRepository confirmationTokenRepository;
 
+	@Autowired
+	SendGridService sendGridService;
+	
 	private List<SimpleGrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
 	}
@@ -107,7 +111,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setPhoneNumber(user.getPhoneNumber());
 		try {
 			
-		mail.sendEmail(newUser,Template.SUBJECT_ACTIVATION_MESSAGE,Template.ACTIVATION_MESSAGE);
+			EmailDto emailDto=new EmailDto();
+			emailDto.setEmailSubject(Template.SUBJECT_ACTIVATION_MESSAGE);
+			emailDto.setFromEmail("userspsdev2@gmail.com");
+			emailDto.setFromName("Order Out");
+			
+			emailDto.setToEmail(user.getEmail());
+			emailDto.setMessage(Template.ACTIVATION_MESSAGE);
+			sendGridService.sendMail(emailDto);
+			
 		
 		}catch (Exception e) {
 			System.err.println(" ########### SEND EMAIL FAILD ###########3");
@@ -135,9 +147,17 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		confirmationTokenRepository.save(confirmationToken);
 		try {
 			
-			mail.sendEmail(user,Template.RESET_PASSWORD,Template.RESET_PASSWORD_MASSAGE+"please click here : "
+			EmailDto emailDto=new EmailDto();
+			emailDto.setEmailSubject(Template.RESET_PASSWORD);
+			emailDto.setFromEmail("userspsdev2@gmail.com");
+			emailDto.setFromName("Order Out");
+			
+			emailDto.setToEmail(user.getEmail());
+			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE+"please click here : "
 		            +"https://order-out.herokuapp.com/forget-password?token="+confirmationToken.getConfirmationToken());
 			
+			sendGridService.sendMail(emailDto);
+
 			}catch (Exception e) {
 				System.err.println(" ########### SEND EMAIL FAILD ###########3");
 				e.printStackTrace();

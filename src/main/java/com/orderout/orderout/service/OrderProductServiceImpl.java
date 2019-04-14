@@ -1,5 +1,6 @@
 package com.orderout.orderout.service;
 
+import com.orderout.orderout.domain.EmailDto;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderProductRepository;
 import com.orderout.orderout.service.MailService;
@@ -25,8 +26,16 @@ public class OrderProductServiceImpl implements OrderProductService {
 
 		try {
 
-			System.out.println("orderProduct.getPk().getUser() >> >>"+orderProduct.getPk().getUser());
-			mail.sendEmail(orderProduct.getPk().getUser(),Template.ORDER_MESSAGE,Template.ORDER_MESSAGE);
+			
+			EmailDto emailDto=new EmailDto();
+			emailDto.setEmailSubject(Template.ORDER_MESSAGE);
+			emailDto.setFromEmail("userspsdev2@gmail.com");
+			emailDto.setFromName("Order Out");
+			
+			emailDto.setToEmail(orderProduct.getPk().getUser().getEmail());
+			emailDto.setMessage(Template.ORDER_MESSAGE);
+			
+			//mail.sendEmail(orderProduct.getPk().getUser(),Template.ORDER_MESSAGE,Template.ORDER_MESSAGE);
 
 		}catch (Exception e) {
 			System.err.println(" ########### SEND EMAIL FAILD ###########3");
