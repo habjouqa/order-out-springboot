@@ -82,7 +82,7 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/activate")
+	@GetMapping("/activate_user")
 	public ApiResponse<Void> activate(@RequestParam String token) {
 		try {
 			System.out.println("token: "+ token);

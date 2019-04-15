@@ -14,22 +14,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.constants.Constants;
+import com.orderout.orderout.constants.Template;
+import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.domain.ConfirmationToken;
 import com.orderout.orderout.domain.EmailDto;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
-import com.orderout.orderout.service.MailService;
-import com.orderout.orderout.service.UserService;
-import com.orderout.orderout.constants.Template;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private MailService mail;
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
@@ -59,17 +55,6 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	public User findByEmail(String username, boolean active) {
 		return userDao.findByEmail(username, active);
 	}
-
-//	@Override
-//	public User findInactiveByEmail(String email) {
-//		return userDao.findInactiveByEmail(email);
-//	}
-
-//	@Override
-//	public User findById(String id) {
-//		Optional<User> optionalUser = userDao.findById(id);
-//		return optionalUser.isPresent() ? optionalUser.get() : null;
-//	}
 
 	@Override
 	public User update(User userDto) {
@@ -113,12 +98,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 			EmailDto emailDto = new EmailDto();
 			emailDto.setEmailSubject(Template.SUBJECT_ACTIVATION_MESSAGE);
-			emailDto.setFromEmail("userspsdev2@gmail.com");
-			emailDto.setFromName("Order Out");
+			emailDto.setFromEmail(Constants.ADMIN_EMAIL);
+			emailDto.setFromName(Constants.ORDER_OUT);
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "/activate" + "?token="
-					+ confirmationToken.getConfirmationToken() + "\">Activate</a>");
+			emailDto.setMessage(Template.ACTIVATION_MESSAGE 
+					+ "<a href=\"" + domainUrl + "/activate?token=" + confirmationToken.getConfirmationToken() + "\"> Activate </a>");
 			sendGridService.sendMail(emailDto);
 
 		} catch (Exception e) {
@@ -149,13 +134,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 			EmailDto emailDto = new EmailDto();
 			emailDto.setEmailSubject(Template.RESET_PASSWORD);
-			emailDto.setFromEmail("userspsdev2@gmail.com");
-			emailDto.setFromName("Order Out");
+			emailDto.setFromEmail(Constants.ADMIN_EMAIL);
+			emailDto.setFromName(Constants.ORDER_OUT);
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE + "please click here : "
-					+ "https://order-out.herokuapp.com/forget-password?token="
-					+ confirmationToken.getConfirmationToken());
+			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE
+					+ "<a href=\"" + domainUrl + "/forget-password?token="
+					+ confirmationToken.getConfirmationToken() + "\"> Reset </a>");
 
 			sendGridService.sendMail(emailDto);
 

@@ -9,4 +9,6 @@ public class Constants {
 	    
 	    public static final boolean ACTIVE = true;
 	    public static final boolean INACTIVE = false;
+		public static final String ADMIN_EMAIL = "orderout.admin@orderout.com";
+		public static final String ORDER_OUT = "Order Out";
 }
