@@ -29,12 +29,12 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	private UserDao userDao;
 	@Autowired
 	private MailService mail;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
-	
+
 	@Autowired
-    private ConfirmationTokenRepository confirmationTokenRepository;
+	private ConfirmationTokenRepository confirmationTokenRepository;
 
 	private List<SimpleGrantedAuthority> getAuthority() {
 		return Arrays.asList(new SimpleGrantedAuthority("ROLE_ADMIN"));
@@ -67,15 +67,15 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 //		return optionalUser.isPresent() ? optionalUser.get() : null;
 //	}
 
-    @Override
-    public User update(User userDto) {
-        User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
-        if(user != null) {
-            BeanUtils.copyProperties(userDto, user, "password");
-            userDao.save(user);
-        }
-        return userDto;
-    }
+	@Override
+	public User update(User userDto) {
+		User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
+		if (user != null) {
+			BeanUtils.copyProperties(userDto, user, "password");
+			userDao.save(user);
+		}
+		return userDto;
+	}
 
 	@Override
 	public void activate(String email) {
@@ -83,7 +83,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (user != null) {
 			user.setActive(Constants.ACTIVE);
 			userDao.save(user);
-			
+
 		} else {
 			throw new UsernameNotFoundException("User not found.");
 		}
@@ -100,18 +100,22 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		newUser.setPassword(bcryptEncoder.encode(user.getPassword()));
 		newUser.setEmail(user.getEmail());
 		newUser.setPhoneNumber(user.getPhoneNumber());
+		userDao.save(newUser);
+		
+		ConfirmationToken confirmationToken = new ConfirmationToken(newUser);
+		confirmationTokenRepository.save(confirmationToken);
 
 		try {
 			System.out.println("-> URL <- " + Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "\">Activate</a>");
-			mail.sendEmail(newUser, Template.SUBJECT_ACTIVATION_MESSAGE, Template.ACTIVATION_MESSAGE 
-					+ "<a href=\"" + domainUrl + "/activate/" + user.getEmail() + "\">Activate</a>");
+			mail.sendEmail(newUser, Template.SUBJECT_ACTIVATION_MESSAGE, Template.ACTIVATION_MESSAGE + "<a href=\""
+					+ domainUrl + "/activate" + "?token=" + confirmationToken.getConfirmationToken() + "\">Activate</a>");
 
 		} catch (Exception e) {
 			System.err.println(" ########### SEND EMAIL FAILD ###########");
 			e.printStackTrace();
 		}
 
-		return userDao.save(newUser);
+		return newUser;
 	}
 
 	@Override
@@ -120,25 +124,29 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
-		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(), getAuthority());
+		return new org.springframework.security.core.userdetails.User(user.getEmail(), user.getPassword(),
+				getAuthority());
 
 	}
-	
-	
+
 	public void sendVerification(String email) {
-		User user=new User();
+		User user = new User();
 		user.setEmail(email);
+		
 		ConfirmationToken confirmationToken = new ConfirmationToken(user);
 		confirmationTokenRepository.save(confirmationToken);
+		
 		try {
-			
-			mail.sendEmail(user,Template.RESET_PASSWORD,Template.RESET_PASSWORD_MASSAGE+"please click here : "
-		            +"https://order-out.herokuapp.com/forget-password?token="+confirmationToken.getConfirmationToken());
-			
-			}catch (Exception e) {
-				System.err.println(" ########### SEND EMAIL FAILD ###########3");
-				e.printStackTrace();
-			}
+
+			mail.sendEmail(user, Template.RESET_PASSWORD,
+					Template.RESET_PASSWORD_MASSAGE + "please click here : "
+							+ "https://order-out.herokuapp.com/forget-password?token="
+							+ confirmationToken.getConfirmationToken());
+
+		} catch (Exception e) {
+			System.err.println(" ########### SEND EMAIL FAILD ###########3");
+			e.printStackTrace();
+		}
 		System.out.println(">> >> >> >> Send Verfication ");
 
 	}
