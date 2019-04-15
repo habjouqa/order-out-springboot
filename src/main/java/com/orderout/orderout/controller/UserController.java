@@ -33,13 +33,12 @@ public class UserController {
 	@Autowired
 	private UserService userService;
 
-
 	@Autowired
 	private ConfirmationTokenRepository confirmationTokenRepository;
-	
+
 	@Autowired
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
-	
+
 	@RequestMapping("/signup")
 	@PostMapping
 	public ApiResponse<User> saveUser(@RequestBody UserDto user) {
@@ -65,7 +64,8 @@ public class UserController {
 	@GetMapping("/users/{email}")
 	public ApiResponse<User> getOne(@PathVariable String email) {
 		try {
-			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", userService.findByEmail(email, Constants.ACTIVE));
+			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",
+					userService.findByEmail(email, Constants.ACTIVE));
 
 		} catch (Exception e) {
 			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
@@ -82,13 +82,29 @@ public class UserController {
 		}
 	}
 
-	@GetMapping("/activate/{email}")
-	public ApiResponse<Void> activate(@PathVariable String email) {
+	@GetMapping("/activate")
+	public ApiResponse<Void> activate(@RequestParam String token) {
 		try {
-			userService.activate(email);
-			return new ApiResponse<>(HttpStatus.OK.value(), "User activated successfully.", null);
+			System.out.println("token: "+ token);
 
+			// Find the user associated with the reset token Optional<ConfirmationToken>
+			Optional<ConfirmationToken> confirm = confirmationTokenRepository.findByConfirmationToken(token.trim());
+			System.out.println("######### confirm : " + confirm.isPresent());
+			
+			if (confirm.isPresent()) {
+				userService.activate(confirm.get().getUser().getEmail());
+				System.out.println("############ confirm.get().getUser().getEmail() : " + confirm.get().getUser().getEmail());
+				System.out.println("############ confirm.get() : " + confirm.get());
+				confirmationTokenRepository.delete(confirm.get());
+				return new ApiResponse<>(HttpStatus.OK.value(), "User activated successfully.", null);
+			}
+			else {
+				System.out.println("confirmationToken it's Not Exits");
+				return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "confirmationToken not found.", null);
+			}
 		} catch (Exception e) {
+			System.err.println("ererer");
+			e.printStackTrace();
 			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
 		}
 	}
@@ -115,45 +131,43 @@ public class UserController {
 		}
 	}
 
-	
 	@GetMapping("/sendVerification")
 	public void sendVerification(@RequestParam String email) {
-		
+
 		userService.sendVerification(email);
 		System.out.println(">> >> >> >> Send Verfication ");
-		
+
 	}
-	
+
 	@PutMapping("/reset")
-	public ApiResponse<User>  setNewPassword(@RequestBody String data) {
-	
-		JSONObject jsonObj = new JSONObject(data);	
-		
-		String token=(String) jsonObj.get("token");
-		String password=(String) jsonObj.get("password");
-		
-		  // Find the user associated with the reset token Optional<ConfirmationToken>
-		Optional<ConfirmationToken> confirm  =
-		  confirmationTokenRepository.findByConfirmationToken(token);
-		  
-		  if (confirm.isPresent()) {
-			  
-			  User resetUser = confirm.get().getUser(); 
-			  resetUser.setPassword(bCryptPasswordEncoder.encode(password));
-	          userService.update(resetUser);
-	          
-	          confirmationTokenRepository.delete(confirm.get());
-	          System.out.println("confirmationToken It's Exits");
-	          return new ApiResponse<>(HttpStatus.OK.value(), "confirmationToken fetched successfully.", resetUser != null ? true : false);
-		 
-		  }else {
-		  
-			  System.out.println("confirmationToken it's Not Exits");
-			  
-			  return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "confirmationToken not found.", null);
-		  }
-		 
-		
+	public ApiResponse<User> setNewPassword(@RequestBody String data) {
+
+		JSONObject jsonObj = new JSONObject(data);
+
+		String token = (String) jsonObj.get("token");
+		String password = (String) jsonObj.get("password");
+
+		// Find the user associated with the reset token Optional<ConfirmationToken>
+		Optional<ConfirmationToken> confirm = confirmationTokenRepository.findByConfirmationToken(token);
+
+		if (confirm.isPresent()) {
+
+			User resetUser = confirm.get().getUser();
+			resetUser.setPassword(bCryptPasswordEncoder.encode(password));
+			userService.update(resetUser);
+
+			confirmationTokenRepository.delete(confirm.get());
+			System.out.println("confirmationToken It's Exits");
+			return new ApiResponse<>(HttpStatus.OK.value(), "confirmationToken fetched successfully.",
+					resetUser != null ? true : false);
+
+		} else {
+
+			System.out.println("confirmationToken it's Not Exits");
+
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "confirmationToken not found.", null);
+		}
+
 	}
-	
+
 }

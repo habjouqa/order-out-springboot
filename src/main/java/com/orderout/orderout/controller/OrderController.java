@@ -2,12 +2,18 @@ package com.orderout.orderout.controller;
 
 import com.orderout.orderout.domain.OrderProductDto;
 import com.orderout.orderout.exception.ResourceNotFoundException;
+import com.orderout.orderout.constants.Constants;
+import com.orderout.orderout.domain.ApiResponse;
 import com.orderout.orderout.domain.Order;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderStatus;
+import com.orderout.orderout.domain.User;
+import com.orderout.orderout.service.ConfigurationService;
 import com.orderout.orderout.service.OrderProductService;
 import com.orderout.orderout.service.OrderService;
 import com.orderout.orderout.service.ProductService;
+
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -22,13 +28,15 @@ import java.util.Objects;
 import java.util.stream.Collectors;
 
 @RestController
-@RequestMapping("/api/orders")
 @CrossOrigin(origins = "*")
 public class OrderController {
 
     ProductService productService;
     OrderService orderService;
     OrderProductService orderProductService;
+    
+    @Autowired
+    ConfigurationService configurationService;
 
     public OrderController(ProductService productService, OrderService orderService, OrderProductService orderProductService) {
         this.productService = productService;
@@ -36,13 +44,14 @@ public class OrderController {
         this.orderProductService = orderProductService;
     }
 
-    @GetMapping
+   
     @ResponseStatus(HttpStatus.OK)
+    @RequestMapping(value ="/api/orders", method = RequestMethod.GET)
     public @NotNull Iterable<Order> list() {
         return this.orderService.getAllOrders();
     }
 
-    @PostMapping
+    @RequestMapping(value ="/api/orders", method = RequestMethod.POST)
     public ResponseEntity<Order> create(@RequestBody OrderForm form) {
         List<OrderProductDto> formDtos = form.getProductOrders();
         validateProductsExistence(formDtos);
@@ -70,6 +79,8 @@ public class OrderController {
 
         return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
     }
+    
+
 
     private void validateProductsExistence(List<OrderProductDto> orderProducts) {
         List<OrderProductDto> list = orderProducts
@@ -96,4 +107,13 @@ public class OrderController {
             this.productOrders = productOrders;
         }
     }
+    
+    @RequestMapping(value="/order_deadline", method=RequestMethod.GET)
+	public ApiResponse<String> getDateOrderDeadline() {
+    	
+    	String orderDeadline=configurationService.getDateOrderDeadline();
+  
+    	return new ApiResponse<>(HttpStatus.OK.value(),"Date Order Dead line Retrive Successfully ",orderDeadline);
+    	
+	}
 }
