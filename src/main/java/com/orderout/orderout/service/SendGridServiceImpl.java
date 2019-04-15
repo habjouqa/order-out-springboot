@@ -71,7 +71,7 @@ public class SendGridServiceImpl implements SendGridService{
 		Content content = new Content();
 
 		/* Adding email message/body */
-		content.setType("text/html");
+		content.setType("text/plain");
 		content.setValue(emailPojo.getMessage());
 		mail.addContent(content);
 
