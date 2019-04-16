@@ -10,5 +10,11 @@ public class OrderOutApplication {
 		SpringApplication.run(OrderOutApplication.class, args);
 		System.out.println(" ##########  BLA ##########");
 	}
+	
+	void test () {
+		// test
+		int x = 1 + 2;
+		System.out.println("x: " + x);
+	}
 
 }
