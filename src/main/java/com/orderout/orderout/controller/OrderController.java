@@ -22,7 +22,10 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
 import javax.validation.constraints.NotNull;
+
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -112,8 +115,10 @@ public class OrderController {
 	public ApiResponse<String> getDateOrderDeadline() {
     	
     	String orderDeadline=configurationService.getDateOrderDeadline();
+    	String currentTime=new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(new Date());
+    	
   
-    	return new ApiResponse<>(HttpStatus.OK.value(),"Date Order Dead line Retrive Successfully ",orderDeadline);
+    	return new ApiResponse<>(HttpStatus.OK.value(),"Date Order Dead line Retrive Successfully ","{\"orderDeadline\" : \""+orderDeadline+"\", \"currentTime\" : \""+currentTime+"\"}");
     	
 	}
 }
