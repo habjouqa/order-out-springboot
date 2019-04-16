@@ -13,7 +13,7 @@ public class OrderOutApplication {
 	
 	void test () {
 		// test
-		int x = 1 + 2;
+		int x = 1 + 4;
 		System.out.println("x: " + x);
 	}
 
