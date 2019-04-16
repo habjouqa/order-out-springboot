@@ -3,8 +3,6 @@ package com.orderout.orderout;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-// test
-
 @SpringBootApplication
 public class OrderOutApplication {
 
