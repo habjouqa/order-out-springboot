@@ -115,7 +115,7 @@ public class OrderController {
 	public ApiResponse<String> getDateOrderDeadline() {
     	
     	String orderDeadline=configurationService.getDateOrderDeadline();
-    	String currentTime=new SimpleDateFormat("yyyy-MM-dd hh:mm a").format(new Date());
+    	String currentTime=new SimpleDateFormat("yyyy-MM-dd hh:mm:ss a").format(new Date());
     	
   
     	return new ApiResponse<>(HttpStatus.OK.value(),"Date Order Dead line Retrive Successfully ","{\"orderDeadline\" : \""+orderDeadline+"\", \"currentTime\" : \""+currentTime+"\"}");
