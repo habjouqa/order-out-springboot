@@ -13,8 +13,8 @@ public class OrderOutApplication {
 	
 	void test () {
 		// test
-		int x = 1 + 4;
-		System.out.println("x: " + x);
+		int x = 1 + 5;
+		System.out.println("1+5 = " + x);
 	}
 
 }
