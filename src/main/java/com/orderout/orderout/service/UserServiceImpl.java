@@ -117,7 +117,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			emailDto.setFromName("Order Out");
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "/activate" + "?token="
+			emailDto.setMessage(Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "/activate_user" + "?token="
 					+ confirmationToken.getConfirmationToken() + "\">Activate</a>");
 			sendGridService.sendMail(emailDto);
 
