@@ -1,11 +1,20 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.domain.Order;
-import com.orderout.orderout.domain.OrderRepository;
+import java.time.LocalDate;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.validation.constraints.NotNull;
+
+import org.hibernate.Criteria;
+import org.hibernate.annotations.Parent;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import java.time.LocalDate;
+import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.OrderRepository;
 
 @Service
 @Transactional
@@ -13,6 +22,7 @@ public class OrderServiceImpl implements OrderService {
 
     private OrderRepository orderRepository;
 
+    
     public OrderServiceImpl(OrderRepository orderRepository) {
         this.orderRepository = orderRepository;
     }
@@ -33,4 +43,11 @@ public class OrderServiceImpl implements OrderService {
     public void update(Order order) {
         this.orderRepository.save(order);
     }
+
+
+	public @NotNull Iterable<Order> getOrdersByUser(String email) {
+	    return this.orderRepository.findByOrderProductsPkUserEmail(email);
+	}
+
+
 }

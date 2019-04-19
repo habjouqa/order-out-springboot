@@ -50,8 +50,8 @@ public class OrderController {
    
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value ="/api/orders", method = RequestMethod.GET)
-    public @NotNull Iterable<Order> list() {
-        return this.orderService.getAllOrders();
+    public @NotNull Iterable<Order> list(@RequestParam String email) {
+        return this.orderService.getOrdersByUser(email);
     }
 
     @RequestMapping(value ="/api/orders", method = RequestMethod.POST)
