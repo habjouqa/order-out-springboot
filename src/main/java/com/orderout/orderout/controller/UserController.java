@@ -123,7 +123,7 @@ public class UserController {
 	@GetMapping("/isExistsEmail")
 	public ApiResponse<User> isExistsEmail(@RequestParam String email) {
 		try {
-			User user = userService.findByEmail(email, Constants.ACTIVE);
+			User user = userService.findByEmail(email.toLowerCase(), Constants.ACTIVE);
 			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", user != null ? true : false);
 
 		} catch (Exception e) {
