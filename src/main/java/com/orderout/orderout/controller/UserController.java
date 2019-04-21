@@ -65,7 +65,7 @@ public class UserController {
 	public ApiResponse<User> getOne(@PathVariable String email) {
 		try {
 			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.",
-					userService.findByEmail(email, Constants.ACTIVE));
+					userService.findByEmail(email));
 
 		} catch (Exception e) {
 			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
@@ -123,7 +123,18 @@ public class UserController {
 	@GetMapping("/isExistsEmail")
 	public ApiResponse<User> isExistsEmail(@RequestParam String email) {
 		try {
-			User user = userService.findByEmail(email.toLowerCase(), Constants.ACTIVE);
+			User user = userService.findByEmail(email.toLowerCase());
+			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", user != null ? true : false);
+
+		} catch (Exception e) {
+			return new ApiResponse<>(HttpStatus.NOT_FOUND.value(), "User not found.", null);
+		}
+	}
+
+	@GetMapping("/isUserActive")
+	public ApiResponse<User> isUserActive(@RequestParam String email) {
+		try {
+			User user = userService.findByStatus(email.toLowerCase(), Constants.ACTIVE);
 			return new ApiResponse<>(HttpStatus.OK.value(), "User fetched successfully.", user != null ? true : false);
 
 		} catch (Exception e) {

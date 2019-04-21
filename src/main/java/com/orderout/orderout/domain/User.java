@@ -23,6 +23,14 @@ public class User {
 	@Column
 	private boolean active = false;
 
+	public User(String currentUserId) {
+		this.setEmail(currentUserId);
+	}
+
+	public User() {
+		super();
+	}
+
 	public int getId() {
 		return id;
 	}

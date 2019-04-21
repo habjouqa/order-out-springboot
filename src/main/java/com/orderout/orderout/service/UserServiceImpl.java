@@ -56,8 +56,13 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 	}
 
 	@Override
-	public User findByEmail(String username, boolean active) {
-		return userDao.findByEmail(username, active);
+	public User findByEmail(String username) {
+		return userDao.findByEmail(username);
+	}
+
+	@Override
+	public User findByStatus(String username, boolean active) {
+		return userDao.findByStatus(username, active);
 	}
 
 //	@Override
@@ -73,7 +78,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public User update(User userDto) {
-		User user = findByEmail(userDto.getEmail(), Constants.ACTIVE);
+		User user = findByEmail(userDto.getEmail());
 		if (user != null) {
 			BeanUtils.copyProperties(userDto, user, "password");
 			userDao.save(user);
@@ -83,7 +88,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public void activate(String email) {
-		User user = findByEmail(email, Constants.INACTIVE); // find inactive email
+		User user = findByStatus(email, Constants.INACTIVE); // find inactive email
 		if (user != null) {
 			user.setActive(Constants.ACTIVE);
 			userDao.save(user);
@@ -131,7 +136,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 
 	@Override
 	public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
-		User user = userDao.findByEmail(email.toLowerCase(), Constants.ACTIVE);
+		User user = userDao.findByEmail(email.toLowerCase());
 		if (user == null) {
 			throw new UsernameNotFoundException("Invalid username or password.");
 		}
