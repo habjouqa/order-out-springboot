@@ -1,7 +1,10 @@
 package com.orderout.orderout.domain;
-import com.fasterxml.jackson.annotation.JsonIgnore;
-
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
+import javax.persistence.Id;
+import javax.persistence.Table;
 @Entity
 @Table(name = "users")
 public class User {
@@ -13,7 +16,6 @@ public class User {
 	@Column(name = "last_name")
 	private String lastName;
 	@Column
-	@JsonIgnore
 	private String password;
 	@Column(name = "phone_number")
 	private String phoneNumber;

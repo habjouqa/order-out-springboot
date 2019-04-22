@@ -2,15 +2,15 @@ package com.orderout.orderout.domain;
 
 public class AuthToken {
 	private String token;
-    private String username;
+    private User user;
 
     public AuthToken(){
 
     }
 
-    public AuthToken(String token, String username){
+    public AuthToken(String token, User user){
         this.token = token;
-        this.username = username;
+        this.user = user;
     }
 
     public AuthToken(String token){
@@ -25,11 +25,12 @@ public class AuthToken {
         this.token = token;
     }
 
-    public String getUsername() {
-        return username;
-    }
+	public User getUser() {
+		return user;
+	}
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
+	public void setUser(User user) {
+		this.user = user;
+	}
+
 }

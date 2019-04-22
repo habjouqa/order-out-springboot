@@ -1,22 +1,18 @@
 package com.orderout.orderout.service;
 
+import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
+
+import com.orderout.orderout.constants.Template;
 import com.orderout.orderout.domain.EmailDto;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderProductRepository;
-import com.orderout.orderout.service.MailService;
-import com.orderout.orderout.constants.Template;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 @Service
 @Transactional
 public class OrderProductServiceImpl implements OrderProductService {
 
 	private OrderProductRepository orderProductRepository;
-	@Autowired
-	private MailService mail;
 	public OrderProductServiceImpl(OrderProductRepository orderProductRepository) {
 		this.orderProductRepository = orderProductRepository;
 	}

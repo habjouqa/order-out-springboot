@@ -14,22 +14,18 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.constants.Constants;
+import com.orderout.orderout.constants.Template;
+import com.orderout.orderout.dao.UserDao;
 import com.orderout.orderout.domain.ConfirmationToken;
 import com.orderout.orderout.domain.EmailDto;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.domain.UserDto;
-import com.orderout.orderout.service.MailService;
-import com.orderout.orderout.service.UserService;
-import com.orderout.orderout.constants.Template;
 
 @Service(value = "userService")
 public class UserServiceImpl implements UserDetailsService, UserService {
 	@Autowired
 	private UserDao userDao;
-	@Autowired
-	private MailService mail;
 
 	@Autowired
 	private BCryptPasswordEncoder bcryptEncoder;
