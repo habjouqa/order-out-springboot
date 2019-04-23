@@ -154,7 +154,7 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			emailDto.setFromName("Order Out");
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE + "please click here : "
+			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE
 					+ "https://order-out.herokuapp.com/forget-password?token="
 					+ confirmationToken.getConfirmationToken());
 
