@@ -118,8 +118,9 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			emailDto.setFromName("Order Out");
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.ACTIVATION_MESSAGE + "<a href=\"" + domainUrl + "/activate_user" + "?token="
-					+ confirmationToken.getConfirmationToken() + "\">Activate</a>");
+			emailDto.setMessage(Template.ACTIVATION_MESSAGE 
+					+ domainUrl+ "/activate_user" + "?token="
+					+ confirmationToken.getConfirmationToken());
 			sendGridService.sendMail(emailDto);
 
 		} catch (Exception e) {
@@ -154,8 +155,8 @@ public class UserServiceImpl implements UserDetailsService, UserService {
 			emailDto.setFromName("Order Out");
 
 			emailDto.setToEmail(user.getEmail());
-			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE
-					+ "https://order-out.herokuapp.com/forget-password?token="
+			emailDto.setMessage(Template.RESET_PASSWORD_MASSAGE 
+					+ domainUrl+ "/forget-password?token="
 					+ confirmationToken.getConfirmationToken());
 
 			sendGridService.sendMail(emailDto);
