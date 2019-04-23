@@ -14,7 +14,6 @@ import com.orderout.orderout.config.JwtTokenUtil;
 import com.orderout.orderout.domain.ApiResponse;
 import com.orderout.orderout.domain.AuthToken;
 import com.orderout.orderout.constants.Constants;
-import com.orderout.orderout.domain.LoginUser;
 import com.orderout.orderout.domain.User;
 import com.orderout.orderout.service.UserService;
 
@@ -34,7 +33,6 @@ public class AuthenticationController {
 
 	    @RequestMapping(value = "/generate-token", method = RequestMethod.POST)
 	    public ApiResponse<AuthToken> register(@RequestBody User loginUser) throws AuthenticationException {
-	    	System.out.println("loginUserloginUser : " + loginUser.getEmail());
 
 	        authenticationManager.authenticate(new UsernamePasswordAuthenticationToken(loginUser.getEmail(), loginUser.getPassword()));
 	        
