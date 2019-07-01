@@ -3,6 +3,8 @@ package com.orderout.orderout.domain;
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 @Entity
 public class Product {
 
@@ -18,6 +20,11 @@ public class Product {
 
     @Column(name = "picture_url")
     private String pictureUrl;
+    
+    @JsonIgnore
+    @ManyToOne
+    @JoinColumn
+    private Menu menu;
 
     public Product(Long id, @NotNull(message = "Product name is required.") String name, Double price, String pictureUrl) {
         this.id = id;
@@ -60,4 +67,14 @@ public class Product {
     public void setPictureUrl(String pictureUrl) {
         this.pictureUrl = pictureUrl;
     }
+
+	public Menu getMenu() {
+		return menu;
+	}
+
+	public void setMenu(Menu menu) {
+		this.menu = menu;
+	}
+    
+    
 }

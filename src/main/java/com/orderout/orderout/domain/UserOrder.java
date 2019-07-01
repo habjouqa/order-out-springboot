@@ -12,9 +12,9 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Table(name = "orders")
+@Table(name = "user_orders")
 @JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="orderProducts")
-public class Order {
+public class UserOrder {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)

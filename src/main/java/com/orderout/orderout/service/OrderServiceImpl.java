@@ -13,7 +13,7 @@ import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
-import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.UserOrder;
 import com.orderout.orderout.domain.OrderRepository;
 
 @Service
@@ -28,24 +28,24 @@ public class OrderServiceImpl implements OrderService {
     }
 
     @Override
-    public Iterable<Order> getAllOrders() {
+    public Iterable<UserOrder> getAllOrders() {
         return this.orderRepository.findAll();
     }
 
     @Override
-    public Order create(Order order) {
+    public UserOrder create(UserOrder order) {
         order.setDateCreated(LocalDate.now());
 
         return this.orderRepository.save(order);
     }
 
     @Override
-    public void update(Order order) {
+    public void update(UserOrder order) {
         this.orderRepository.save(order);
     }
 
 
-	public @NotNull Iterable<Order> getOrdersByUser(String email) {
+	public @NotNull Iterable<UserOrder> getOrdersByUser(String email) {
 	    return this.orderRepository.findByOrderProductsPkUserEmail(email);
 	}
 

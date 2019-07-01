@@ -1,6 +1,6 @@
 package com.orderout.orderout.service;
 
-import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.UserOrder;
 
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.validation.annotation.Validated;
@@ -11,11 +11,11 @@ import javax.validation.constraints.NotNull;
 @Validated
 public interface OrderService {
 
-    @NotNull Iterable<Order> getAllOrders();
+    @NotNull Iterable<UserOrder> getAllOrders();
     
-    public @NotNull Iterable<Order> getOrdersByUser(String email);
+    public @NotNull Iterable<UserOrder> getOrdersByUser(String email);
     
-    Order create(@NotNull(message = "The order cannot be null.") @Valid Order order);
+    UserOrder create(@NotNull(message = "The order cannot be null.") @Valid UserOrder order);
 
-    void update(@NotNull(message = "The order cannot be null.") @Valid Order order);
+    void update(@NotNull(message = "The order cannot be null.") @Valid UserOrder order);
 }

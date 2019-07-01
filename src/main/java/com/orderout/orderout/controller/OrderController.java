@@ -4,7 +4,7 @@ import com.orderout.orderout.domain.OrderProductDto;
 import com.orderout.orderout.exception.ResourceNotFoundException;
 import com.orderout.orderout.constants.Constants;
 import com.orderout.orderout.domain.ApiResponse;
-import com.orderout.orderout.domain.Order;
+import com.orderout.orderout.domain.UserOrder;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderStatus;
 import com.orderout.orderout.domain.User;
@@ -53,15 +53,15 @@ public class OrderController {
    
     @ResponseStatus(HttpStatus.OK)
     @RequestMapping(value ="/api/orders", method = RequestMethod.GET)
-    public @NotNull Iterable<Order> list(@RequestParam String email) {
+    public @NotNull Iterable<UserOrder> list(@RequestParam String email) {
         return this.orderService.getOrdersByUser(email);
     }
 
     @RequestMapping(value ="/api/orders", method = RequestMethod.POST)
-    public ResponseEntity<Order> create(@RequestBody OrderForm form) {
+    public ResponseEntity<UserOrder> create(@RequestBody OrderForm form) {
         List<OrderProductDto> formDtos = form.getProductOrders();
         validateProductsExistence(formDtos);
-        Order order = new Order();
+        UserOrder order = new UserOrder();
         order.setStatus(OrderStatus.PAID.name());
         order = this.orderService.create(order);
 

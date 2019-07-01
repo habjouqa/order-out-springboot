@@ -21,7 +21,7 @@ public class OrderProduct {
         super();
     }
 
-    public OrderProduct(Order order, Product product, Integer quantity, User user) {
+    public OrderProduct(UserOrder order, Product product, Integer quantity, User user) {
         pk = new OrderProductPK();
         pk.setOrder(order);
         pk.setProduct(product);

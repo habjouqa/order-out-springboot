@@ -18,7 +18,7 @@ public class OrderProductPK implements Serializable {
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "order_id")
-    private Order order;
+    private UserOrder order;
 
     @ManyToOne(optional = false, fetch = FetchType.LAZY)
     @JoinColumn(name = "product_id")
@@ -36,11 +36,11 @@ public class OrderProductPK implements Serializable {
 		this.user = user;
 	}
 
-	public Order getOrder() {
+	public UserOrder getOrder() {
         return order;
     }
 
-    public void setOrder(Order order) {
+    public void setOrder(UserOrder order) {
         this.order = order;
     }
 
