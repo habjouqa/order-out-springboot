@@ -8,28 +8,30 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name="group_order")
+@Entity
+@Table(name = "group_orders")
 public class GroupOrder {
-	
-	
+
 	public GroupOrder() {
 	}
+
 	@Id
 	@GeneratedValue
 	private int id;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "resturnt_id", referencedColumnName = "id")
-	private Resturant restaurant;
-	
+	@JoinColumn(name = "restaurant_id", referencedColumnName = "id")
+	private Restaurant restaurant;
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "email")
 	private User owner;
 	private Date endDate;
 	private String orderMethod;
-	
-	private String desc;
+
+	private String description;
 
 	public int getId() {
 		return id;
@@ -39,11 +41,11 @@ public class GroupOrder {
 		this.id = id;
 	}
 
-	public Resturant getRestaurant() {
+	public Restaurant getRestaurant() {
 		return restaurant;
 	}
 
-	public void setRestaurant(Resturant restaurant) {
+	public void setRestaurant(Restaurant restaurant) {
 		this.restaurant = restaurant;
 	}
 
@@ -71,20 +73,12 @@ public class GroupOrder {
 		this.orderMethod = orderMethod;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
-	
-	
-	
-	
-	
-	
-	
-	
 
 }

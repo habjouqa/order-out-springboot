@@ -1,38 +1,30 @@
 package com.orderout.orderout.domain;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Entity;
-import javax.persistence.FetchType;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.JoinColumn;
-import javax.persistence.OneToOne;
+import javax.persistence.*;
 
 @Entity
-public class Resturant {
-	
+public class Restaurant {
+
 	@Id
 	@GeneratedValue
 	private int id;
-	
-	private String resturantName;
+	private String name;
+	private String pictureUrl;
 	private String phoneNumber;
 	private String address;
 	private String status;
-	
+
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "menu_id", referencedColumnName = "id")
 	private Menu menu;
-	
-	
 
-	public Resturant() {
+	public Restaurant() {
 	}
 
-	public Resturant(int id, String resturantName, String phoneNumber, String address, Menu menu) {
+	public Restaurant(int id, String name, String phoneNumber, String address, Menu menu) {
 		super();
 		this.id = id;
-		this.resturantName = resturantName;
+		this.name = name;
 		this.phoneNumber = phoneNumber;
 		this.address = address;
 		this.menu = menu;
@@ -46,12 +38,12 @@ public class Resturant {
 		this.id = id;
 	}
 
-	public String getResturantName() {
-		return resturantName;
+	public String getName() {
+		return name;
 	}
 
-	public void setResturantName(String resturantName) {
-		this.resturantName = resturantName;
+	public void setName(String name) {
+		this.name = name;
 	}
 
 	public String getPhoneNumber() {
@@ -78,7 +70,6 @@ public class Resturant {
 		this.menu = menu;
 	}
 
-	
 	public String getStatus() {
 		return status;
 	}
@@ -89,11 +80,16 @@ public class Resturant {
 
 	@Override
 	public String toString() {
-		return "Resturant [id=" + id + ", resturantName=" + resturantName + ", phoneNumber=" + phoneNumber
+		return "Restaurant [id=" + id + ", name=" + name + ", phoneNumber=" + phoneNumber
 				+ ", address=" + address + ", menu=" + menu + "]";
 	}
-	
-	
-	
+
+	public String getPictureUrl() {
+		return pictureUrl;
+	}
+
+	public void setPictureUrl(String pictureUrl) {
+		this.pictureUrl = pictureUrl;
+	}
 
 }

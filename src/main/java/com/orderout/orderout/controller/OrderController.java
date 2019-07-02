@@ -1,17 +1,13 @@
 package com.orderout.orderout.controller;
 
-import com.orderout.orderout.domain.OrderProductDto;
-import com.orderout.orderout.exception.ResourceNotFoundException;
-import com.orderout.orderout.constants.Constants;
-import com.orderout.orderout.domain.ApiResponse;
-import com.orderout.orderout.domain.UserOrder;
-import com.orderout.orderout.domain.OrderProduct;
-import com.orderout.orderout.domain.OrderStatus;
-import com.orderout.orderout.domain.User;
-import com.orderout.orderout.service.ConfigurationService;
-import com.orderout.orderout.service.OrderProductService;
-import com.orderout.orderout.service.OrderService;
-import com.orderout.orderout.service.ProductService;
+import java.text.SimpleDateFormat;
+import java.util.ArrayList;
+import java.util.Date;
+import java.util.List;
+import java.util.Objects;
+import java.util.stream.Collectors;
+
+import javax.validation.constraints.NotNull;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -21,17 +17,26 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.util.CollectionUtils;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.CrossOrigin;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.ResponseStatus;
+import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import javax.validation.constraints.NotNull;
-
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Objects;
-import java.util.stream.Collectors;
+import com.orderout.orderout.domain.ApiResponse;
+import com.orderout.orderout.domain.OrderProduct;
+import com.orderout.orderout.domain.OrderProductDto;
+import com.orderout.orderout.domain.OrderStatus;
+import com.orderout.orderout.domain.User;
+import com.orderout.orderout.domain.UserOrder;
+import com.orderout.orderout.exception.ResourceNotFoundException;
+import com.orderout.orderout.service.ConfigurationService;
+import com.orderout.orderout.service.OrderProductService;
+import com.orderout.orderout.service.OrderService;
+import com.orderout.orderout.service.ProductService;
 
 @RestController
 @CrossOrigin(origins = "*")
