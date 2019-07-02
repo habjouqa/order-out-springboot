@@ -15,7 +15,7 @@ public class Menu {
 	
 	@Id
 	@GeneratedValue
-	private int id;
+	private Long id;
 	
 	@JsonIgnore
 	@OneToMany(targetEntity=Product.class, mappedBy="menu", cascade = CascadeType.ALL)
@@ -26,11 +26,11 @@ public class Menu {
 	public Menu() {
 	}
 
-	public int getId() {
+	public Long getId() {
 		return id;
 	}
 
-	public void setId(int id) {
+	public void setId(Long id) {
 		this.id = id;
 	}
 
