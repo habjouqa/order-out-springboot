@@ -21,66 +21,66 @@ public class GroupOrder {
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "resturnt_id", referencedColumnName = "id")
-	private Resturant resturnt;
+	private Resturant restaurant;
 	
 	@OneToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "user_id", referencedColumnName = "email")
-	private User user;
+	private User owner;
 	private Date endDate;
 	private String orderMethod;
 	
-	private String description;
-	
-	
-	public GroupOrder(int id, Resturant resturnt, User user, Date endDate, String orderMethod) {
-		super();
-		this.id = id;
-		this.resturnt = resturnt;
-		this.user = user;
-		this.endDate = endDate;
-		this.orderMethod = orderMethod;
-	}
-	@Override
-	public String toString() {
-		return "GroupOrder [id=" + id + ", resturnt=" + resturnt + ", user=" + user + ", endDate=" + endDate
-				+ ", orderMethod=" + orderMethod + "]";
-	}
+	private String desc;
+
 	public int getId() {
 		return id;
 	}
+
 	public void setId(int id) {
 		this.id = id;
 	}
-	public Resturant getResturnt() {
-		return resturnt;
+
+	public Resturant getRestaurant() {
+		return restaurant;
 	}
-	public void setResturnt(Resturant resturnt) {
-		this.resturnt = resturnt;
+
+	public void setRestaurant(Resturant restaurant) {
+		this.restaurant = restaurant;
 	}
-	public User getUser() {
-		return user;
+
+	public User getOwner() {
+		return owner;
 	}
-	public void setUser(User user) {
-		this.user = user;
+
+	public void setOwner(User owner) {
+		this.owner = owner;
 	}
+
 	public Date getEndDate() {
 		return endDate;
 	}
+
 	public void setEndDate(Date endDate) {
 		this.endDate = endDate;
 	}
+
 	public String getOrderMethod() {
 		return orderMethod;
 	}
+
 	public void setOrderMethod(String orderMethod) {
 		this.orderMethod = orderMethod;
 	}
-	public String getDescription() {
-		return description;
+
+	public String getDesc() {
+		return desc;
 	}
-	public void setDescription(String description) {
-		this.description = description;
+
+	public void setDesc(String desc) {
+		this.desc = desc;
 	}
+	
+	
+	
 	
 	
 	
