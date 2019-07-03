@@ -7,7 +7,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.orderout.orderout.domain.Resturant;
+import com.orderout.orderout.domain.Restaurant;
 import com.orderout.orderout.service.ResturantBusiness;
 
 @RestController
@@ -18,7 +18,7 @@ public class RestaurantController {
 	ResturantBusiness service;
 	
 	@GetMapping("/restaurant")
-	public Iterable<Resturant> getAllRestaurant() {
+	public Iterable<Restaurant> getAllRestaurant() {
 		return service.getAllResturants();
 	}
 }

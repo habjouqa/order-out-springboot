@@ -1,14 +1,15 @@
 package com.orderout.orderout.controller;
 
-import com.orderout.orderout.domain.Product;
-import com.orderout.orderout.service.ProductService;
+import javax.validation.constraints.NotNull;
 
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import javax.validation.constraints.NotNull;
+import com.orderout.orderout.domain.Product;
+import com.orderout.orderout.service.ProductService;
 
 @RequestMapping("/api/products")
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -24,5 +25,10 @@ public class ProductController {
     @GetMapping(value = { "", "/" })
     public @NotNull Iterable<Product> getProducts() {
         return productService.getAllProducts();
+    }
+    
+    @GetMapping("/{menuId}")
+    public @NotNull Iterable<Product> getProductsByMenuId(@PathVariable Long menuId) {
+    	return productService.getAllProductsByMenuId(menuId);
     }
 }
