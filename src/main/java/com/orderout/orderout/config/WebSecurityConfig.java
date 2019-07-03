@@ -44,14 +44,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
 	@Override
 	protected void configure(HttpSecurity http) throws Exception {
 		http.cors().and().csrf().disable().authorizeRequests()
-<<<<<<< HEAD
-				.antMatchers("/token/*", "/signup", "/api/products", "/isExistsEmail", "/activate",
-						"/sendVerification","/reset","/order_deadline", "/api/restaurant").permitAll()
 
-=======
 				.antMatchers("/token/*", "/signup", "/api/products/*", "/isExistsEmail", "/activate",
-						"/sendVerification","/reset","/order_deadline", "/group-orders").permitAll()
->>>>>>> branch 'master' of https://github.com/habjouqa/order-out-springboot.git
+						"/sendVerification","/reset","/order_deadline", "/group-orders","/api/restaurant").permitAll()
 				.anyRequest().authenticated().and().exceptionHandling().authenticationEntryPoint(unauthorizedHandler)
 				.and().sessionManagement().sessionCreationPolicy(SessionCreationPolicy.STATELESS);
 		http.addFilterBefore(authenticationTokenFilterBean(), UsernamePasswordAuthenticationFilter.class);

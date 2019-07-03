@@ -14,11 +14,8 @@ public class Restaurant {
 	private String address;
 	private String status;
 
-<<<<<<< HEAD
+
 	@OneToOne
-=======
-	@OneToOne(cascade = CascadeType.ALL)
->>>>>>> branch 'master' of https://github.com/habjouqa/order-out-springboot.git
 	@JoinColumn(name = "menu_id", referencedColumnName = "id")
 	private Menu menu;
 
