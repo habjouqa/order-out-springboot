@@ -1,3 +1,4 @@
+<<<<<<< HEAD
 package com.orderout.orderout.service;
 
 import com.orderout.orderout.domain.Product;
@@ -17,3 +18,24 @@ public interface ProductService {
 
     Product save(Product product);
 }
+=======
+package com.orderout.orderout.service;
+
+import com.orderout.orderout.domain.Product;
+import org.springframework.validation.annotation.Validated;
+
+import javax.validation.constraints.Min;
+import javax.validation.constraints.NotNull;
+
+@Validated
+public interface ProductService {
+
+    @NotNull Iterable<Product> getAllProducts();
+    
+    @NotNull Iterable<Product> getAllProductsByMenuId(Long menuId);
+
+    Product getProduct(@Min(value = 1L, message = "Invalid product ID.") long id);
+
+    Product save(Product product);
+}
+>>>>>>> branch 'master' of https://github.com/habjouqa/order-out-springboot.git
