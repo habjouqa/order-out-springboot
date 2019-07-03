@@ -4,15 +4,20 @@ import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
+
+import org.springframework.web.bind.annotation.RequestMapping;
 
 @Entity
-public class Resturant {
+@Table(name="resturant")
+public class Resturant implements java.io.Serializable {
 	
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
 	private String resturantName;
@@ -20,9 +25,11 @@ public class Resturant {
 	private String address;
 	private String status;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "menu_id", referencedColumnName = "id")
 	private Menu menu;
+	
+	private String imgURL;
 	
 	
 
@@ -85,6 +92,17 @@ public class Resturant {
 
 	public void setStatus(String status) {
 		this.status = status;
+	}
+	
+	
+	
+
+	public String getImgURL() {
+		return imgURL;
+	}
+
+	public void setImgURL(String imgURL) {
+		this.imgURL = imgURL;
 	}
 
 	@Override

@@ -4,6 +4,8 @@ import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orderout.orderout.dao.GroupOrderRepository;
@@ -22,5 +24,16 @@ public class GroupOrdersController {
 	//	return service.getAllGroupOrders();
 		
 		System.out.println("Hello ");
-		return service.getAllGroupOrders();	}
+		return service.getAllGroupOrders();
+	}
+	
+	
+	@PostMapping("/group-order")
+	private GroupOrder create(@RequestBody GroupOrder GroupOrder) {
+		
+		System.out.println(">> >> >> >> Create Group Order"+GroupOrder);
+		return service.create(GroupOrder);
+	}
+	
+	
 }

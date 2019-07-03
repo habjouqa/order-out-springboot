@@ -7,7 +7,7 @@ import javax.persistence.Id;
 import javax.persistence.Table;
 @Entity
 @Table(name = "users")
-public class User {
+public class User implements java.io.Serializable {
 
 
 	@Column(name = "first_name")
@@ -18,9 +18,11 @@ public class User {
 	private String password;
 	@Column(name = "phone_number")
 	private String phoneNumber;
+	
 	@Id
 	@Column
 	private String email;
+	
 	@Column
 	private boolean active = false;
 

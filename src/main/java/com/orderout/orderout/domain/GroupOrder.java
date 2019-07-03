@@ -5,31 +5,37 @@ import java.util.Date;
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import javax.persistence.Table;
 
-@Entity(name="group_order")
+@Entity
+@Table(name="group_order")
 public class GroupOrder {
 	
 	
 	public GroupOrder() {
 	}
 	@Id
-	@GeneratedValue
+	@GeneratedValue(strategy=GenerationType.AUTO)
 	private int id;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "resturnt_id", referencedColumnName = "id")
 	private Resturant restaurant;
 	
-	@OneToOne(cascade = CascadeType.ALL)
+	@OneToOne
 	@JoinColumn(name = "user_id", referencedColumnName = "email")
 	private User owner;
+	
 	private Date endDate;
 	private String orderMethod;
 	
-	private String desc;
+	private String description;
 
 	public int getId() {
 		return id;
@@ -71,13 +77,15 @@ public class GroupOrder {
 		this.orderMethod = orderMethod;
 	}
 
-	public String getDesc() {
-		return desc;
+	public String getDescription() {
+		return description;
 	}
 
-	public void setDesc(String desc) {
-		this.desc = desc;
+	public void setDescription(String description) {
+		this.description = description;
 	}
+
+
 	
 	
 	
