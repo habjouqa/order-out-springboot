@@ -15,11 +15,13 @@ public class GroupOrderBusiness {
 		return service.findAll();
 	}
 	
-	
 	public  GroupOrder create(GroupOrder groupOrder) {
 		return service.save(groupOrder);
 
 	}
 
-	
+	public String getDateOrderDeadline(Integer id) {
+		return service.findById(id).get().getEndDate().toString();
+	}
+
 }
