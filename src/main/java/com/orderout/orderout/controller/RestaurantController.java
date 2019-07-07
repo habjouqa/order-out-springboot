@@ -11,12 +11,12 @@ import com.orderout.orderout.service.ResturantBusiness;
 
 @RestController
 @RequestMapping("/api")
-@CrossOrigin(origins = "*", maxAge = 3600)
+@CrossOrigin("*")
 public class RestaurantController {
 
 	@Autowired
 	ResturantBusiness service;
-
+	
 	@GetMapping("/restaurant")
 	public Iterable<Restaurant> getAllRestaurant() {
 		return service.getAllResturants();
