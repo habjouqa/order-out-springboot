@@ -1,8 +1,6 @@
 package com.orderout.orderout.controller;
 
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.Objects;
 import java.util.stream.Collectors;
@@ -26,7 +24,6 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
-import com.orderout.orderout.domain.ApiResponse;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderProductDto;
 import com.orderout.orderout.domain.OrderStatus;
@@ -42,102 +39,82 @@ import com.orderout.orderout.service.ProductService;
 @CrossOrigin(origins = "*")
 public class OrderController {
 
-    ProductService productService;
-    OrderService orderService;
-    OrderProductService orderProductService;
-    
-    @Autowired
-    ConfigurationService configurationService;
+	ProductService productService;
+	OrderService orderService;
+	OrderProductService orderProductService;
 
-    public OrderController(ProductService productService, OrderService orderService, OrderProductService orderProductService) {
-        this.productService = productService;
-        this.orderService = orderService;
-        this.orderProductService = orderProductService;
-    }
+	@Autowired
+	ConfigurationService configurationService;
 
-   
-    @ResponseStatus(HttpStatus.OK)
-    @RequestMapping(value ="/api/orders", method = RequestMethod.GET)
-    public @NotNull Iterable<UserOrder> list(@RequestParam String email) {
-        return this.orderService.getOrdersByUser(email);
-    }
+	public OrderController(ProductService productService, OrderService orderService,
+			OrderProductService orderProductService) {
+		this.productService = productService;
+		this.orderService = orderService;
+		this.orderProductService = orderProductService;
+	}
 
-    @RequestMapping(value ="/api/orders", method = RequestMethod.POST)
-    public ResponseEntity<UserOrder> create(@RequestBody OrderForm form) {
-        List<OrderProductDto> formDtos = form.getProductOrders();
-        validateProductsExistence(formDtos);
-        UserOrder order = new UserOrder();
-        order.setStatus(OrderStatus.PAID.name());
-        order = this.orderService.create(order);
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/api/orders", method = RequestMethod.GET)
+	public @NotNull Iterable<UserOrder> list(@RequestParam String email) {
+		return this.orderService.getOrdersByUser(email);
+	}
 
-        List<OrderProduct> orderProducts = new ArrayList<>();
-        String currentUserId = "";
-        
-        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
-        if (!(authentication instanceof AnonymousAuthenticationToken)) {
-            currentUserId = authentication.getName();
-            
-            System.out.println("Hello" + currentUserId);
-        }
-        
-        
-        for (OrderProductDto dto : formDtos) {
-        	dto.setUser(new User(currentUserId));
-            orderProducts.add(orderProductService.create(
-            		new OrderProduct(order, productService.getProduct(dto.getProduct().getId()), dto.getQuantity(), dto.getUser())));
-        }
+	@RequestMapping(value = "/api/orders", method = RequestMethod.POST)
+	public ResponseEntity<UserOrder> create(@RequestBody OrderForm form) {
+		List<OrderProductDto> formDtos = form.getProductOrders();
+		validateProductsExistence(formDtos);
+		UserOrder order = new UserOrder();
+		order.setStatus(OrderStatus.PAID.name());
+		order = this.orderService.create(order);
 
-        order.setOrderProducts(orderProducts);
+		List<OrderProduct> orderProducts = new ArrayList<>();
+		String currentUserId = "";
 
-        this.orderService.update(order);
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			currentUserId = authentication.getName();
 
-        String uri = ServletUriComponentsBuilder
-          .fromCurrentServletMapping()
-          .path("/orders/{id}")
-          .buildAndExpand(order.getId())
-          .toString();
-        HttpHeaders headers = new HttpHeaders();
-        headers.add("Location", uri);
+			System.out.println("Hello" + currentUserId);
+		}
 
-        return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
-    }
-    
+		for (OrderProductDto dto : formDtos) {
+			dto.setUser(new User(currentUserId));
+			orderProducts.add(orderProductService.create(new OrderProduct(order,
+					productService.getProduct(dto.getProduct().getId()), dto.getQuantity(), dto.getUser())));
+		}
 
+		order.setOrderProducts(orderProducts);
 
-    private void validateProductsExistence(List<OrderProductDto> orderProducts) {
-        List<OrderProductDto> list = orderProducts
-          .stream()
-          .filter(op -> Objects.isNull(productService.getProduct(op
-            .getProduct()
-            .getId())))
-          .collect(Collectors.toList());
+		this.orderService.update(order);
 
-        if (!CollectionUtils.isEmpty(list)) {
-            new ResourceNotFoundException("Product not found");
-        }
-    }
+		String uri = ServletUriComponentsBuilder.fromCurrentServletMapping().path("/orders/{id}")
+				.buildAndExpand(order.getId()).toString();
+		HttpHeaders headers = new HttpHeaders();
+		headers.add("Location", uri);
 
-    public static class OrderForm {
+		return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
+	}
 
-        private List<OrderProductDto> productOrders;
+	private void validateProductsExistence(List<OrderProductDto> orderProducts) {
+		List<OrderProductDto> list = orderProducts.stream()
+				.filter(op -> Objects.isNull(productService.getProduct(op.getProduct().getId())))
+				.collect(Collectors.toList());
 
-        public List<OrderProductDto> getProductOrders() {
-            return productOrders;
-        }
+		if (!CollectionUtils.isEmpty(list)) {
+			new ResourceNotFoundException("Product not found");
+		}
+	}
 
-        public void setProductOrders(List<OrderProductDto> productOrders) {
-            this.productOrders = productOrders;
-        }
-    }
-    
-    @RequestMapping(value="/order_deadline", method=RequestMethod.GET)
-	public ApiResponse<String> getDateOrderDeadline() {
-    	
-    	String orderDeadline=configurationService.getDateOrderDeadline();
-    	String currentTime=new SimpleDateFormat("yyyy/MM/dd hh:mm:ss a").format(new Date());
-    	
-  
-    	return new ApiResponse<>(HttpStatus.OK.value(),"Date Order Dead line Retrive Successfully ","{\"orderDeadline\" : \""+orderDeadline+"\", \"currentTime\" : \""+currentTime+"\"}");
-    	
+	public static class OrderForm {
+
+		private List<OrderProductDto> productOrders;
+
+		public List<OrderProductDto> getProductOrders() {
+			return productOrders;
+		}
+
+		public void setProductOrders(List<OrderProductDto> productOrders) {
+			this.productOrders = productOrders;
+		}
 	}
 }
