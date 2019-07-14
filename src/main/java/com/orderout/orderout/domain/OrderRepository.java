@@ -11,5 +11,8 @@ import org.springframework.data.repository.CrudRepository;
 public interface OrderRepository extends CrudRepository<UserOrder, Long> {
 	
 	
-	public @NotNull Iterable<UserOrder> findByOrderProductsPkUserEmail(String email);
+	@Query("select DISTINCT userOrder FROM UserOrder userOrder join fetch  userOrder.orderProducts  oPro where oPro.pk.user.email=:email")
+	public @NotNull Iterable<UserOrder> findTopByOrderProductsPkUserEmail(String email);
 }
+
+

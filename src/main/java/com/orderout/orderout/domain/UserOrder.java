@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
 @Table(name = "user_orders")
-@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="orderProducts")
+//@JsonIdentityInfo(generator=ObjectIdGenerators.PropertyGenerator.class, property="orderProducts")
 public class UserOrder {
 
     @Id
@@ -31,11 +31,12 @@ public class UserOrder {
     @Column(name = "date_created")
     private LocalDate dateCreated;
 
+    
     private String status;
 
     @OneToMany(mappedBy = "pk.order")
     @Valid
-    private List<OrderProduct> orderProducts = new ArrayList<>();
+    private List<OrderProduct> orderProducts;
 
     @Transient
     public Double getTotalOrderPrice() {
