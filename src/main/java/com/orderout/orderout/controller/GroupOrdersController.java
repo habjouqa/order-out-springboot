@@ -12,6 +12,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.orderout.orderout.domain.ApiResponse;
@@ -36,6 +37,16 @@ public class GroupOrdersController {
 		System.out.println("### Create Group Order ### " + GroupOrder);
 		return service.create(GroupOrder);
 	}
+	
+	
+	@PostMapping("/group-orders/AddUser")
+	private GroupOrder addUserToGroup(@RequestParam String groupId) {
+		System.out.println("### groupId Group Order ### " + groupId);
+		return service.addUserToGroup(Integer.valueOf(groupId));
+	}
+	
+	
+	
 
 	@RequestMapping(value = "/order_deadline/{id}", method = RequestMethod.GET)
 	public ApiResponse<String> getDateOrderDeadline(@PathVariable Integer id) {
