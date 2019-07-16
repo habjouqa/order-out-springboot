@@ -1,11 +1,13 @@
 package com.orderout.orderout.domain;
-import java.util.List;
 
-import javax.persistence.*;
+import javax.persistence.Column;
+import javax.persistence.Entity;
+import javax.persistence.Id;
+import javax.persistence.Table;
+
 @Entity
 @Table(name = "users")
 public class User implements java.io.Serializable {
-
 
 	/**
 	 * 
@@ -19,19 +21,14 @@ public class User implements java.io.Serializable {
 	private String password;
 	@Column(name = "phone_number")
 	private String phoneNumber;
-	
+
 	@Id
-	@Column(name="email")
+	@Column(name = "email")
 	private String email;
-	
+
 	@Column
 	private boolean active = false;
 
-	@ManyToMany(fetch = FetchType.LAZY,
-            cascade = {CascadeType.PERSIST, CascadeType.MERGE},
-            mappedBy = "users")
-	private List<Group> groups;
-	
 	public User(String currentUserId) {
 		this.setEmail(currentUserId);
 	}
@@ -39,7 +36,6 @@ public class User implements java.io.Serializable {
 	public User() {
 		super();
 	}
-
 
 	public String getFirstName() {
 		return firstName;

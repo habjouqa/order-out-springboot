@@ -1,12 +1,16 @@
 package com.orderout.orderout.domain;
 
 import java.util.Date;
+import java.util.List;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
+import javax.persistence.JoinTable;
+import javax.persistence.ManyToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 
@@ -31,6 +35,11 @@ public class GroupOrder {
 	private Date endDate;
 	private String orderMethod;
 	private String description;
+
+	@ManyToMany
+	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
+			@JoinColumn(name = "email") })
+	private List<User> users;
 
 	public int getId() {
 		return id;
@@ -78,6 +87,14 @@ public class GroupOrder {
 
 	public void setDescription(String description) {
 		this.description = description;
+	}
+
+	public List<User> getUsers() {
+		return users;
+	}
+
+	public void setUsers(List<User> users) {
+		this.users = users;
 	}
 
 }
