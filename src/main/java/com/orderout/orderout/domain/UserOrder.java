@@ -10,6 +10,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToMany;
+import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
@@ -37,6 +38,9 @@ public class UserOrder {
     @OneToMany(mappedBy = "pk.order")
     @Valid
     private List<OrderProduct> orderProducts;
+    
+    @OneToOne
+    private GroupOrder groupOrder;
 
     @Transient
     public Double getTotalOrderPrice() {
@@ -80,8 +84,18 @@ public class UserOrder {
     public void setOrderProducts(List<OrderProduct> orderProducts) {
         this.orderProducts = orderProducts;
     }
+    
+    
 
-    @Transient
+    public GroupOrder getGroupOrder() {
+		return groupOrder;
+	}
+
+	public void setGroupOrder(GroupOrder groupOrder) {
+		this.groupOrder = groupOrder;
+	}
+
+	@Transient
     public int getNumberOfProducts() {
         return this.orderProducts.size();
     }

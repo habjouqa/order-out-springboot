@@ -19,9 +19,16 @@ public class GroupOrderBusiness {
 	
 	@Autowired
 	private UserDao userDao;
-
+	
+	@Autowired
+	OrderService orderService;
+	
 	public Iterable<GroupOrder> getAllGroupOrders() {
-		return groupOrderRepository.findAll();
+		Iterable<GroupOrder> groupsOrders=groupOrderRepository.findAll();
+		for (GroupOrder groupOrder : groupsOrders) {
+			groupOrder.setNumberUsers(orderService.getTotalByGroupId(groupOrder.getId()));
+		}
+		return groupsOrders;
 	}
 
 	public GroupOrder create(GroupOrder groupOrder) {

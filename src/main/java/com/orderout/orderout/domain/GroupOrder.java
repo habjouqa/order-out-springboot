@@ -21,6 +21,10 @@ public class GroupOrder {
 	public GroupOrder() {
 	}
 
+	public GroupOrder(int id) {
+		this.id=id;
+	}
+
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
 	private int id;
@@ -35,6 +39,7 @@ public class GroupOrder {
 	private Date endDate;
 	private String orderMethod;
 	private String description;
+	private Long numberUsers;
 
 	@ManyToMany
 	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
@@ -95,6 +100,14 @@ public class GroupOrder {
 
 	public void setUsers(List<User> users) {
 		this.users = users;
+	}
+
+	public Long getNumberUsers() {
+		return numberUsers;
+	}
+
+	public void setNumberUsers(Long numberUsers) {
+		this.numberUsers = numberUsers;
 	}
 
 }
