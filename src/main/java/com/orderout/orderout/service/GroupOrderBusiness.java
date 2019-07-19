@@ -13,7 +13,7 @@ public class GroupOrderBusiness {
 	GroupOrderRepository groupOrderRepository;
 
 	public Iterable<GroupOrder> getAllGroupOrders() {
-		return groupOrderRepository.findAll();
+		return groupOrderRepository.findAllActive();
 	}
 
 	public GroupOrder create(GroupOrder groupOrder) {
