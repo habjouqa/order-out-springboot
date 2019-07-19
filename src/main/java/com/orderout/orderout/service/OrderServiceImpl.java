@@ -9,6 +9,7 @@ import javax.validation.constraints.NotNull;
 
 import org.hibernate.Criteria;
 import org.hibernate.annotations.Parent;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -20,6 +21,7 @@ import com.orderout.orderout.domain.OrderRepository;
 @Transactional
 public class OrderServiceImpl implements OrderService {
 
+	@Autowired
     private OrderRepository orderRepository;
 
     
@@ -45,6 +47,10 @@ public class OrderServiceImpl implements OrderService {
     }
 
 
+    public Long getTotalByGroupId(int groupId) {
+    	return this.orderRepository.countByGroupOrderId(groupId);
+    }
+    
 	public @NotNull Iterable<UserOrder> getOrdersByUser(String email) {
 	    return this.orderRepository.findByOrderProductsPkUserEmail(email);
 	}

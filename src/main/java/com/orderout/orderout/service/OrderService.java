@@ -18,4 +18,6 @@ public interface OrderService {
     UserOrder create(@NotNull(message = "The order cannot be null.") @Valid UserOrder order);
 
     void update(@NotNull(message = "The order cannot be null.") @Valid UserOrder order);
+    
+    public Long getTotalByGroupId(int groupId);
 }

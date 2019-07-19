@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.ResponseStatus;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.servlet.support.ServletUriComponentsBuilder;
 
+import com.orderout.orderout.domain.GroupOrder;
 import com.orderout.orderout.domain.OrderProduct;
 import com.orderout.orderout.domain.OrderProductDto;
 import com.orderout.orderout.domain.OrderStatus;
@@ -59,11 +60,20 @@ public class OrderController {
 		return this.orderService.getOrdersByUser(email);
 	}
 
+	
+	@ResponseStatus(HttpStatus.OK)
+	@RequestMapping(value = "/api/orders/group-order/count", method = RequestMethod.GET)
+	public @NotNull Long list(@RequestParam int groupId) {
+		return this.orderService.getTotalByGroupId(groupId);
+	}
+	
+	
 	@RequestMapping(value = "/api/orders", method = RequestMethod.POST)
 	public ResponseEntity<UserOrder> create(@RequestBody OrderForm form) {
 		List<OrderProductDto> formDtos = form.getProductOrders();
 		validateProductsExistence(formDtos);
 		UserOrder order = new UserOrder();
+		order.setGroupOrder(new GroupOrder(form.getGroupOrder().getId()));
 		order.setStatus(OrderStatus.PAID.name());
 		order = this.orderService.create(order);
 
@@ -106,7 +116,8 @@ public class OrderController {
 	}
 
 	public static class OrderForm {
-
+		
+		private GroupOrder groupOrder;
 		private List<OrderProductDto> productOrders;
 
 		public List<OrderProductDto> getProductOrders() {
@@ -116,5 +127,15 @@ public class OrderController {
 		public void setProductOrders(List<OrderProductDto> productOrders) {
 			this.productOrders = productOrders;
 		}
+
+		public GroupOrder getGroupOrder() {
+			return groupOrder;
+		}
+
+		public void setGroupOrder(GroupOrder groupOrder) {
+			this.groupOrder = groupOrder;
+		}
+		
+		
 	}
 }
