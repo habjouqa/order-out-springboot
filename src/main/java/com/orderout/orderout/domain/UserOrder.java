@@ -9,14 +9,18 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
 import javax.persistence.Transient;
 import javax.validation.Valid;
 
+import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import com.fasterxml.jackson.annotation.JsonIdentityInfo;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 import com.fasterxml.jackson.annotation.ObjectIdGenerators;
 
 @Entity
@@ -39,8 +43,11 @@ public class UserOrder {
     @Valid
     private List<OrderProduct> orderProducts;
     
-    @OneToOne
+    @ManyToOne
+    @JoinColumn(name = "group_id", nullable = false)
+    @JsonBackReference
     private GroupOrder groupOrder;
+    
 
     @Transient
     public Double getTotalOrderPrice() {
@@ -99,4 +106,6 @@ public class UserOrder {
     public int getNumberOfProducts() {
         return this.orderProducts.size();
     }
+	
+	
 }

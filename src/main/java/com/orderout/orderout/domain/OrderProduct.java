@@ -38,6 +38,11 @@ public class OrderProduct {
     public Double getTotalPrice() {
         return getProduct().getPrice() * getQuantity();
     }
+    
+    @Transient
+    public User getUser() {
+        return this.pk.getUser();
+    }
 
     public OrderProductPK getPk() {
         return pk;

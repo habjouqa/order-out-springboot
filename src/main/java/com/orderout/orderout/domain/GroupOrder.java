@@ -5,14 +5,18 @@ import java.util.List;
 
 import javax.persistence.CascadeType;
 import javax.persistence.Entity;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+
+import com.fasterxml.jackson.annotation.JsonManagedReference;
 
 @Entity
 @Table(name = "group_orders")
@@ -46,6 +50,11 @@ public class GroupOrder {
 			@JoinColumn(name = "email") })
 	private List<User> users;
 
+	@JsonManagedReference
+	@OneToMany(mappedBy="groupOrder",cascade= CascadeType.ALL,fetch = FetchType.EAGER)
+	private List<UserOrder> userOrder;
+	
+	
 	public int getId() {
 		return id;
 	}
@@ -109,5 +118,15 @@ public class GroupOrder {
 	public void setNumberUsers(Long numberUsers) {
 		this.numberUsers = numberUsers;
 	}
+
+	public List<UserOrder> getUserOrder() {
+		return userOrder;
+	}
+
+	public void setUserOrder(List<UserOrder> userOrder) {
+		this.userOrder = userOrder;
+	}
+	
+	
 
 }

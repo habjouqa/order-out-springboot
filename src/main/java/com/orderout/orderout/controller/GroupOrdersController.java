@@ -40,6 +40,11 @@ public class GroupOrdersController {
 		return service.create(GroupOrder);
 	}
 	
+	@GetMapping("/group-orders/email")
+	public Iterable<GroupOrder> getAllGroupOrdersByEmail() {
+		System.out.println("### getAllGroupOrders ###");
+		return service.getGroupOrderByEmail();
+	}
 	
 	@PostMapping("/group-orders/AddUser")
 	private GroupOrder addUserToGroup(@RequestParam String groupId) {
