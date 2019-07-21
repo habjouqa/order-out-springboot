@@ -9,10 +9,11 @@ import com.orderout.orderout.domain.GroupOrder;
 @Repository
 public interface GroupOrderRepository extends CrudRepository<GroupOrder, Integer> {
 
-	@Query("select u from GroupOrder u where u.endDate > CURRENT_DATE")  
-	Iterable<GroupOrder> findAllActive();
+	@Query("select groupOrder from GroupOrder groupOrder JOIN groupOrder.users user where groupOrder.endDate > CURRENT_DATE and user.email=:email")  
+	Iterable<GroupOrder> findAllActive(String email);
 	
 	public Iterable<GroupOrder> findByOwnerEmail(String email);
+	//public Iterable<GroupOrder> findByUsersEmail(String email);
 
 
 }

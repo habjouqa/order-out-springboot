@@ -25,7 +25,11 @@ public class GroupOrderBusiness {
 
 	public Iterable<GroupOrder> getAllGroupOrders() {
 
-		Iterable<GroupOrder> groupsOrders=groupOrderRepository.findAllActive();
+		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+		if (!(authentication instanceof AnonymousAuthenticationToken)) {
+			
+		}
+		Iterable<GroupOrder> groupsOrders=groupOrderRepository.findAllActive(authentication.getName());
 		for (GroupOrder groupOrder : groupsOrders) {
 			groupOrder.setNumberUsers(orderService.getTotalByGroupId(groupOrder.getId()));
 		}
@@ -47,6 +51,11 @@ public class GroupOrderBusiness {
 	}
 
 	public GroupOrder create(GroupOrder groupOrder) {
+		
+		if(!groupOrder.getUsers().contains(new User(groupOrder.getOwner().getEmail()))) {
+			groupOrder.getUsers().add(new User(groupOrder.getOwner().getEmail()));
+			groupOrderRepository.save(groupOrder);
+		}
 		return groupOrderRepository.save(groupOrder);
 
 	}
