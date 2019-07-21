@@ -44,7 +44,7 @@ public class GroupOrder {
 	private Date endDate;
 	private String orderMethod;
 	private String description;
-	private Long numberUsers;
+	private Long numberOfOrders;
 
 	@ManyToMany
 	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id", unique = true) }, inverseJoinColumns = {
@@ -112,20 +112,20 @@ public class GroupOrder {
 		this.users = users;
 	}
 
-	public Long getNumberUsers() {
-		return numberUsers;
-	}
-
-	public void setNumberUsers(Long numberUsers) {
-		this.numberUsers = numberUsers;
-	}
-
 	public List<UserOrder> getUserOrder() {
 		return userOrder;
 	}
 
 	public void setUserOrder(List<UserOrder> userOrder) {
 		this.userOrder = userOrder;
+	}
+
+	public Long getNumberOfOrders() {
+		return numberOfOrders;
+	}
+
+	public void setNumberOfOrders(Long numberOfOrders) {
+		this.numberOfOrders = numberOfOrders;
 	}
 	
 	
