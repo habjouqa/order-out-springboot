@@ -15,6 +15,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.UniqueConstraint;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -46,8 +47,8 @@ public class GroupOrder {
 	private Long numberUsers;
 
 	@ManyToMany
-	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-			@JoinColumn(name = "email") })
+	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id", unique = true) }, inverseJoinColumns = {
+			@JoinColumn(name = "email") }, uniqueConstraints = @UniqueConstraint(columnNames = {"id", "email"}))
 	private List<User> users;
 
 	@JsonManagedReference
