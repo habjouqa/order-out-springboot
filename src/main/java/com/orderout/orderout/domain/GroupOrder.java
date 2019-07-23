@@ -19,6 +19,7 @@ import javax.persistence.Table;
 import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
+import javax.persistence.UniqueConstraint;
 
 @Entity
 @Table(name = "group_orders")
@@ -45,11 +46,11 @@ public class GroupOrder {
 	private Date endDate;
 	private String orderMethod;
 	private String description;
-	private Long numberUsers;
+	private Long numberOfOrders;
 
 	@ManyToMany
-	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
-			@JoinColumn(name = "email") })
+	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id", unique = true) }, inverseJoinColumns = {
+			@JoinColumn(name = "email") }, uniqueConstraints = @UniqueConstraint(columnNames = {"id", "email"}))
 	private List<User> users;
 
 	@JsonManagedReference
@@ -115,14 +116,15 @@ public class GroupOrder {
 		this.users = users;
 	}
 
-	public Long getNumberUsers() {
-		return numberUsers;
+
+	public Long getNumberOfOrders() {
+		return numberOfOrders;
 	}
 
-	public void setNumberUsers(Long numberUsers) {
-		this.numberUsers = numberUsers;
+	public void setNumberOfOrders(Long numberOfOrders) {
+		this.numberOfOrders = numberOfOrders;
 	}
-
+	
 	public List<UserOrder> getUserOrder() {
 		return userOrder;
 	}

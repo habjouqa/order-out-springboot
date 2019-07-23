@@ -41,10 +41,11 @@ public class GroupOrderBusiness {
 		}
 		Iterable<GroupOrder> groupsOrders=groupOrderRepository.findAllActive(authentication.getName());
 		for (GroupOrder groupOrder : groupsOrders) {
-			groupOrder.setNumberUsers(orderService.getTotalByGroupId(groupOrder.getId()));
+			groupOrder.setNumberOfOrders(orderService.getTotalByGroupId(groupOrder.getId()));
 		}
 		return groupsOrders;
 	}
+	
 
 	public Iterable<GroupOrder> getGroupOrderByEmail() {
 
@@ -52,7 +53,7 @@ public class GroupOrderBusiness {
 		if (!(authentication instanceof AnonymousAuthenticationToken)) {
 			Iterable<GroupOrder> groupsOrders=groupOrderRepository.findByOwnerEmail(authentication.getName());
 			for (GroupOrder groupOrder : groupsOrders) {
-				groupOrder.setNumberUsers(orderService.getTotalByGroupId(groupOrder.getId()));
+				groupOrder.setNumberOfOrders(orderService.getTotalByGroupId(groupOrder.getId()));
 				
 				Iterable<OrderSummary> groupsOrdersSummary=groupOrderRepository.getGroupSummary(authentication.getName());
 				List<OrderSummary> listOrderSummary=null;
