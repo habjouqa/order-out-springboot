@@ -49,7 +49,7 @@ public class GroupOrder {
 	private Long numberOfOrders;
 
 	@ManyToMany
-	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id", unique = true) }, inverseJoinColumns = {
+	@JoinTable(name = "group_order_users", joinColumns = { @JoinColumn(name = "id") }, inverseJoinColumns = {
 			@JoinColumn(name = "email") }, uniqueConstraints = @UniqueConstraint(columnNames = {"id", "email"}))
 	private List<User> users;
 
