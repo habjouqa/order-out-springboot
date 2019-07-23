@@ -6,9 +6,11 @@ import com.orderout.orderout.domain.User;
 import javax.persistence.Column;
 import javax.persistence.EmbeddedId;
 import javax.persistence.Entity;
+import javax.persistence.Table;
 import javax.persistence.Transient;
 
 @Entity
+@Table(name = "order_product")
 public class OrderProduct {
 
     @EmbeddedId
