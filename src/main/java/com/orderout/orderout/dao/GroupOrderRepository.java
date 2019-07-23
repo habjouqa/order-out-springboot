@@ -15,7 +15,7 @@ public interface GroupOrderRepository extends CrudRepository<GroupOrder, Integer
 	
 	
 	@Query(nativeQuery=true,value = "select go.id as GroupOrder, go.description as Description, r.name as Restaurant, p.name as productName, SUM(op.quantity) as numberItems,p.price as price, (SUM(op.quantity) * p.price) as total \r\n" + 
-			"from order_out.order_product as op, order_out.product as p, order_out.restaurant as r, order_out.group_orders as go, order_out.user_orders as uo\r\n" + 
+			"from order_product as op, product as p, restaurant as r, group_orders as go, user_orders as uo\r\n" + 
 			"where p.id = op.product_id \r\n" + 
 			"and op.order_id=uo.id \r\n" + 
 			"and r.id=go.restaurant_id and p.menu_id=r.menu_id and uo.group_id=go.id\r\n" + 
