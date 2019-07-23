@@ -9,6 +9,7 @@ import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
@@ -126,6 +127,8 @@ public class GroupOrderBusiness {
 	}
 
 	public GroupOrder addUserToGroup(Integer id) {
+		
+		try {
 		GroupOrder groupOrder =groupOrderRepository.findById(id).get();
 
 		Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
@@ -139,8 +142,20 @@ public class GroupOrderBusiness {
 
 
 		}
-
 		return groupOrder;
+		}catch (DataIntegrityViolationException e) {
+			System.err.println("Sorry Duplicate User  Not Add To Group Error GroupOrderBusiness -> addUserToGroup ");
+			e.printStackTrace();
+			
+		
+		}catch (Exception e) {
+			System.err.println("Error GroupOrderBusiness -> addUserToGroup");
+			// TODO: handle exception
+			e.printStackTrace();
+		}
+		return null;
+
+
 
 	}
 
