@@ -2,6 +2,8 @@ package com.orderout.orderout.controller;
 
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.orderout.orderout.domain.ApiResponse;
 import com.orderout.orderout.domain.GroupOrder;
+import com.orderout.orderout.domain.OrderSummary;
 import com.orderout.orderout.service.GroupOrderBusiness;
 
 @CrossOrigin(origins = "*", maxAge = 3600)
@@ -44,6 +47,12 @@ public class GroupOrdersController {
 	public Iterable<GroupOrder> getAllGroupOrdersByEmail() {
 		System.out.println("### getAllGroupOrders ###");
 		return service.getGroupOrderByEmail();
+	}
+	
+	@GetMapping("/group-orders/email/summary")
+	public Map<String, List<OrderSummary>> getAllGroupOrdersSummary() {
+		System.out.println("### getAllGroupOrders ###");
+		return service.getGroupOrderSummary();
 	}
 	
 	@PostMapping("/group-orders/AddUser")

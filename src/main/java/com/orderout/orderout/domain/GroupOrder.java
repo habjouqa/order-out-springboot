@@ -1,5 +1,6 @@
 package com.orderout.orderout.domain;
 
+import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
@@ -15,6 +16,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import javax.persistence.Transient;
 
 import com.fasterxml.jackson.annotation.JsonManagedReference;
 
@@ -54,6 +56,8 @@ public class GroupOrder {
 	@OneToMany(mappedBy="groupOrder",cascade= CascadeType.ALL,fetch = FetchType.EAGER)
 	private List<UserOrder> userOrder;
 	
+	@Transient
+	private List<OrderSummary> orderSummary;
 	
 	public int getId() {
 		return id;
@@ -125,6 +129,17 @@ public class GroupOrder {
 
 	public void setUserOrder(List<UserOrder> userOrder) {
 		this.userOrder = userOrder;
+	}
+
+	public List<OrderSummary> getOrderSummary() {
+		if(this.orderSummary==null) {
+			return new ArrayList<OrderSummary>();
+		}
+		return orderSummary;
+	}
+
+	public void setOrderSummary(List<OrderSummary> orderSummary) {
+		this.orderSummary = orderSummary;
 	}
 	
 	
