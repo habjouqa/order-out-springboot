@@ -62,9 +62,9 @@ public class GroupOrdersController {
 		return service.addUserToGroup(Integer.valueOf(groupId));
 	}
 	
-	@DeleteMapping("/group-orders")
-	private void delete(@RequestBody GroupOrder GroupOrder) {
-		 service.delete(GroupOrder);
+	@DeleteMapping("/group-orders/{id}")
+	private void delete(@PathVariable int id) {
+		 service.delete(id);
 	}
 	
 	

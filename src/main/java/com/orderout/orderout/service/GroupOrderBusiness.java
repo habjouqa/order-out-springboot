@@ -129,8 +129,9 @@ public class GroupOrderBusiness {
 	}
 	
 	
-	public void delete(GroupOrder groupOrder) {
-	
+	public void delete(int id) {
+		GroupOrder groupOrder=new GroupOrder();
+		groupOrder.setId(id);
 		System.out.println("delete >> >> >> >>"+groupOrder.getId());
 		orderService.deleteByGroupOrder(groupOrder);
 		groupOrderRepository.delete(groupOrder);
