@@ -14,9 +14,9 @@ public interface OrderRepository extends CrudRepository<UserOrder, Long> {
 	@Query("select DISTINCT userOrder FROM UserOrder userOrder join fetch  userOrder.orderProducts  oPro where oPro.pk.user.email=:email")
 	public @NotNull Iterable<UserOrder> findByOrderProductsPkUserEmail(String email);
 
-	
 	public Long countByGroupOrderId(int id);
-	
+
+	public void deleteByGroupOrder(GroupOrder groupOrder);
 	
 }
 

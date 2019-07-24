@@ -40,8 +40,11 @@ import com.orderout.orderout.service.ProductService;
 @CrossOrigin(origins = "*")
 public class OrderController {
 
+	@Autowired
 	ProductService productService;
+	@Autowired
 	OrderService orderService;
+	@Autowired
 	OrderProductService orderProductService;
 
 	@Autowired
@@ -60,14 +63,12 @@ public class OrderController {
 		return this.orderService.getOrdersByUser(email);
 	}
 
-	
 	@ResponseStatus(HttpStatus.OK)
 	@RequestMapping(value = "/api/orders/group-order/count", method = RequestMethod.GET)
 	public @NotNull Long list(@RequestParam int groupId) {
 		return this.orderService.getTotalByGroupId(groupId);
 	}
-	
-	
+
 	@RequestMapping(value = "/api/orders", method = RequestMethod.POST)
 	public ResponseEntity<UserOrder> create(@RequestBody OrderForm form) {
 		List<OrderProductDto> formDtos = form.getProductOrders();
@@ -105,6 +106,12 @@ public class OrderController {
 		return new ResponseEntity<>(order, headers, HttpStatus.CREATED);
 	}
 
+	@RequestMapping(value = "/api/orders", method = RequestMethod.DELETE)
+	public void delete(@RequestBody UserOrder userOrder) {
+
+		this.orderService.delete(userOrder);
+	}
+
 	private void validateProductsExistence(List<OrderProductDto> orderProducts) {
 		List<OrderProductDto> list = orderProducts.stream()
 				.filter(op -> Objects.isNull(productService.getProduct(op.getProduct().getId())))
@@ -116,7 +123,7 @@ public class OrderController {
 	}
 
 	public static class OrderForm {
-		
+
 		private GroupOrder groupOrder;
 		private List<OrderProductDto> productOrders;
 
@@ -135,7 +142,5 @@ public class OrderController {
 		public void setGroupOrder(GroupOrder groupOrder) {
 			this.groupOrder = groupOrder;
 		}
-		
-		
 	}
 }

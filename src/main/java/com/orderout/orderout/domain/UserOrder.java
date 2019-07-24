@@ -39,7 +39,7 @@ public class UserOrder {
     
     private String status;
 
-    @OneToMany(mappedBy = "pk.order")
+    @OneToMany(mappedBy = "pk.order",orphanRemoval = true)
     @Valid
     private List<OrderProduct> orderProducts;
     

@@ -30,6 +30,8 @@ public class GroupOrderBusiness {
 
 	@Autowired
 	private UserDao userDao;
+	
+	
 
 	@Autowired
 	OrderService orderService;
@@ -125,7 +127,15 @@ public class GroupOrderBusiness {
 	public GroupOrder getGroupOrderById(Integer id) {
 		return groupOrderRepository.findById(id).get();
 	}
-
+	
+	
+	public void delete(GroupOrder groupOrder) {
+	
+		System.out.println("delete >> >> >> >>"+groupOrder.getId());
+		orderService.deleteByGroupOrder(groupOrder);
+		groupOrderRepository.delete(groupOrder);
+	}
+	
 	public GroupOrder addUserToGroup(Integer id) {
 		
 		try {

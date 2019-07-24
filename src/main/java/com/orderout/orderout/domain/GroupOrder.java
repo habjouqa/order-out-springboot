@@ -54,7 +54,7 @@ public class GroupOrder {
 	private List<User> users;
 
 	@JsonManagedReference
-	@OneToMany(mappedBy="groupOrder",cascade= CascadeType.ALL,fetch = FetchType.EAGER)
+	@OneToMany(mappedBy="groupOrder",cascade= CascadeType.ALL,orphanRemoval = true)
 	private List<UserOrder> userOrder;
 	
 	@Transient

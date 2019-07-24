@@ -1,5 +1,6 @@
 package com.orderout.orderout.service;
 
+import com.orderout.orderout.domain.GroupOrder;
 import com.orderout.orderout.domain.UserOrder;
 
 import org.springframework.data.jpa.repository.Query;
@@ -20,4 +21,10 @@ public interface OrderService {
     void update(@NotNull(message = "The order cannot be null.") @Valid UserOrder order);
     
     public Long getTotalByGroupId(int groupId);
+    
+    public void deleteByGroupOrder(GroupOrder groupOrder);
+
+    public void delete(UserOrder order);
+
+
 }

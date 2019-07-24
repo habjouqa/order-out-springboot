@@ -15,6 +15,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import com.orderout.orderout.domain.UserOrder;
+import com.orderout.orderout.domain.GroupOrder;
 import com.orderout.orderout.domain.OrderRepository;
 
 @Service
@@ -54,6 +55,20 @@ public class OrderServiceImpl implements OrderService {
 	public @NotNull Iterable<UserOrder> getOrdersByUser(String email) {
 	    return this.orderRepository.findByOrderProductsPkUserEmail(email);
 	}
+
+	public void deleteByGroupOrder(GroupOrder groupOrder) {
+		// TODO Auto-generated method stub
+		
+		this.orderRepository.deleteByGroupOrder(groupOrder);
+		
+	}
+
+	@Override
+	public void delete(UserOrder order) {
+		this.orderRepository.deleteAll();
+		
+	}
+	
 
 
 }
