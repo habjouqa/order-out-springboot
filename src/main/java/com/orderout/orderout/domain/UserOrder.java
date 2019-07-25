@@ -107,10 +107,10 @@ public class UserOrder {
         return this.orderProducts.size();
     }
 	
-	@Transient
-    public String getResturantName() {
-        return this.getGroupOrder().getRestaurant().getName();
-    }
+	/*
+	 * @Transient public String getResturantName() { return
+	 * this.getGroupOrder().getRestaurant().getName(); }
+	 */
 	
 	
 }
